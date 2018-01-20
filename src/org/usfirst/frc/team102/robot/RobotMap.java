@@ -10,12 +10,14 @@ public class RobotMap {
 	public static final int CAN_ID_DRIVE_TRAIN_FRONT_RIGHT;
 	public static final int CAN_ID_DRIVE_TRAIN_BACK_LEFT;
 	public static final int CAN_ID_DRIVE_TRAIN_BACK_RIGHT;
+	public static final int CAN_ID_LIFT;
 	
 	public static final int SOLENOID_ID_GRAB_ARMS = 0;
 	
 	public static final double JOYSTICK_DEADBAND = .2;
 	
-	public static final double LIFT_MAX_HEIGHT = 100; //FIXME get the real number
+	public static final double LIFT_SPEED = 1;
+	public static final double LIFT_MAX_HEIGHT = 6 * 12; // 6 ft., in inches
 	
 	static {
 		if(IS_TEST_BED) {
@@ -23,11 +25,15 @@ public class RobotMap {
 			CAN_ID_DRIVE_TRAIN_FRONT_RIGHT = 3;
 			CAN_ID_DRIVE_TRAIN_BACK_LEFT = 0;
 			CAN_ID_DRIVE_TRAIN_BACK_RIGHT = 5;
+			
+			CAN_ID_LIFT = 1;
 		} else {
 			CAN_ID_DRIVE_TRAIN_FRONT_LEFT = 1;
 			CAN_ID_DRIVE_TRAIN_FRONT_RIGHT = 3;
 			CAN_ID_DRIVE_TRAIN_BACK_LEFT = 2;
 			CAN_ID_DRIVE_TRAIN_BACK_RIGHT = 4;
+			
+			CAN_ID_LIFT = 5;
 		}
 	}
 }

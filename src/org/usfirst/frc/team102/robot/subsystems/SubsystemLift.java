@@ -3,6 +3,8 @@ package org.usfirst.frc.team102.robot.subsystems;
 import org.usfirst.frc.team102.robot.Robot;
 import org.usfirst.frc.team102.robot.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import micobyte.frc.lib.io.POVPosition;
@@ -13,6 +15,8 @@ public class SubsystemLift extends UpdateableSubsystem {
 	protected Trigger moveUpTrigger;
 	protected Trigger moveDownTrigger;
 	
+	protected WPI_TalonSRX liftMotorController;
+	
 	protected boolean isResetting = false;
 	protected boolean bottomedAlertPlayed = false, toppedAlertPlayed = false;
 	
@@ -21,6 +25,8 @@ public class SubsystemLift extends UpdateableSubsystem {
 		
 		moveUpTrigger = new POVButton(Robot.oi.opJoystick, POVPosition.ALL_UPS);
 		moveDownTrigger = new POVButton(Robot.oi.opJoystick, POVPosition.ALL_DOWNS);
+		
+		liftMotorController = new WPI_TalonSRX(RobotMap.CAN_ID_LIFT);
 	}
 	
 	public void update() {
@@ -82,18 +88,15 @@ public class SubsystemLift extends UpdateableSubsystem {
 	}
 	
 	public void moveUp() {
-		// Dummy method
-		// TODO implement
+		liftMotorController.set(RobotMap.LIFT_SPEED);
 	}
 	
 	public void moveDown() {
-		// Dummy method
-		// TODO implement
+		liftMotorController.set(-RobotMap.LIFT_SPEED);
 	}
 	
 	public void stopMoving() {
-		// Dummy method
-		// TODO implement
+		liftMotorController.set(0);
 	}
 	
 	public void reset() {
