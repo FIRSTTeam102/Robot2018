@@ -24,16 +24,14 @@ public class SubsystemLift extends UpdateableSubsystem {
 	}
 	
 	public void update() {
-		double height = getHeightInches();
-		
 		if(isResetting) {
-			if(height < 1) {
+			if(isLiftBottomed()) {
 				stopMoving();
 				isResetting = false;
 			} else moveDown();
 		} else {
 			if(moveUpTrigger.get()) {
-				if(height < RobotMap.LIFT_MAX_HEIGHT) {
+				if(!isLiftTopped()) {
 					bottomedAlertPlayed = false;
 					moveUp();
 				} else if(!toppedAlertPlayed) {
@@ -41,7 +39,7 @@ public class SubsystemLift extends UpdateableSubsystem {
 					Robot.oi.liftToppedRumble.play(Robot.oi.opJoystick);
 				}
 			} else if(moveDownTrigger.get()) {
-				if(height > 0) {
+				if(!isLiftBottomed()) {
 					toppedAlertPlayed = false;
 					moveDown();
 				} else if(!bottomedAlertPlayed) {
@@ -52,7 +50,20 @@ public class SubsystemLift extends UpdateableSubsystem {
 		}
 		
 		SmartDashboard.putString("DB/String 0", "Lift Height: " + getHeightFeetAndInches());
+		SmartDashboard.putString("DB/String 1", getLiftStatusString());
 	}
+	
+	public String getLiftStatusString() {
+		String str = "Lift ";
+		if(isLiftTopped()) str += "TOPPED";
+		else if(isLiftBottomed()) str += "BOTTOMED";
+		else str += "ready";
+		
+		return str;
+	}
+	
+	public boolean isLiftTopped() { return getHeightInches() >= RobotMap.LIFT_MAX_HEIGHT; }
+	public boolean isLiftBottomed() { return getHeightInches() <= 0; }
 	
 	public String getHeightFeetAndInches() {
 		int totalInches = (int)Math.round(getHeightInches());
