@@ -7,7 +7,8 @@ public class CommandGroupAutoScore extends SimpleCommandGroup {
 	public CommandGroupAutoScore(boolean isRight) {
 		super("Auto: Score in switch");
 		
-		addPrint(() -> "This does nothing... yet");
+		// Dummy group
+		// TODO implement
 	}
 
 }

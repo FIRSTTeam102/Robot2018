@@ -7,6 +7,7 @@ public class CommandGroupAutoCrossBaseline extends SimpleCommandGroup {
 	public CommandGroupAutoCrossBaseline() {
 		super("Auto: Cross baseline");
 		
-		addPrint(() -> "This does nothing... yet");
+		// Dummy group
+		// TODO implement
 	}
 }

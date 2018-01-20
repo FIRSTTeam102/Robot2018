@@ -11,6 +11,7 @@ import micobyte.frc.lib.triggers.POVButton;
 public class SubsystemLift extends UpdateableSubsystem {
 	protected Trigger moveUpTrigger;
 	protected Trigger moveDownTrigger;
+	protected boolean isResetting = false;
 	
 	public SubsystemLift() {
 		super("Cube Lift");
@@ -20,9 +21,18 @@ public class SubsystemLift extends UpdateableSubsystem {
 	}
 	
 	public void update() {
-		if(moveUpTrigger.get()) moveUp();
-		else if(moveDownTrigger.get()) moveDown();
-		else stopMoving();
+		if(isResetting) {
+			double height = getHeightInches();
+			
+			if(height < 1) {
+				stopMoving();
+				isResetting = false;
+			} else moveDown();
+		} else {
+			if(moveUpTrigger.get()) moveUp();
+			else if(moveDownTrigger.get()) moveDown();
+			else stopMoving();
+		}
 		
 		SmartDashboard.putString("DB/String 0", "Lift Height: " + getHeightFeetAndInches());
 	}
@@ -59,7 +69,6 @@ public class SubsystemLift extends UpdateableSubsystem {
 	}
 	
 	public void reset() {
-		// Dummy method
-		// TODO implement
+		isResetting = true;
 	}
 }

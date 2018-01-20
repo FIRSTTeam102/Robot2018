@@ -5,7 +5,7 @@ import org.usfirst.frc.team102.robot.FieldStatusHelper;
 import micobyte.frc.lib.command.SimpleCommandGroup;
 
 public class CommandGroupAutoCrossAndAlwaysScore extends SimpleCommandGroup {
-
+	
 	public CommandGroupAutoCrossAndAlwaysScore(boolean isRight) {
 		super("Auto: Cross and always attempt to score in switch");
 		

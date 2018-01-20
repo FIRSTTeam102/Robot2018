@@ -7,6 +7,7 @@ public class CommandGroupAutoSwitchSides extends SimpleCommandGroup {
 	public CommandGroupAutoSwitchSides(boolean isRight) {
 		super("Auto: Switch sides");
 		
-		addPrint(() -> "This does nothing... yet");
+		// Dummy group
+		// TODO implement
 	}
 }
