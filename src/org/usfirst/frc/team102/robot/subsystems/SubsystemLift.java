@@ -1,6 +1,7 @@
 package org.usfirst.frc.team102.robot.subsystems;
 
 import org.usfirst.frc.team102.robot.Robot;
+import org.usfirst.frc.team102.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,7 +12,9 @@ import micobyte.frc.lib.triggers.POVButton;
 public class SubsystemLift extends UpdateableSubsystem {
 	protected Trigger moveUpTrigger;
 	protected Trigger moveDownTrigger;
+	
 	protected boolean isResetting = false;
+	protected boolean bottomedAlertPlayed = false, toppedAlertPlayed = false;
 	
 	public SubsystemLift() {
 		super("Cube Lift");
@@ -21,17 +24,31 @@ public class SubsystemLift extends UpdateableSubsystem {
 	}
 	
 	public void update() {
+		double height = getHeightInches();
+		
 		if(isResetting) {
-			double height = getHeightInches();
-			
 			if(height < 1) {
 				stopMoving();
 				isResetting = false;
 			} else moveDown();
 		} else {
-			if(moveUpTrigger.get()) moveUp();
-			else if(moveDownTrigger.get()) moveDown();
-			else stopMoving();
+			if(moveUpTrigger.get()) {
+				if(height < RobotMap.LIFT_MAX_HEIGHT) {
+					bottomedAlertPlayed = false;
+					moveUp();
+				} else if(!toppedAlertPlayed) {
+					toppedAlertPlayed = true;
+					Robot.oi.liftToppedRumble.play(Robot.oi.opJoystick);
+				}
+			} else if(moveDownTrigger.get()) {
+				if(height > 0) {
+					toppedAlertPlayed = false;
+					moveDown();
+				} else if(!bottomedAlertPlayed) {
+					bottomedAlertPlayed = true;
+					Robot.oi.liftBottomedRumble.play(Robot.oi.opJoystick);
+				}
+			} else stopMoving();
 		}
 		
 		SmartDashboard.putString("DB/String 0", "Lift Height: " + getHeightFeetAndInches());

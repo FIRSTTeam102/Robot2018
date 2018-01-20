@@ -15,6 +15,8 @@ public class RobotMap {
 	
 	public static final double JOYSTICK_DEADBAND = .2;
 	
+	public static final double LIFT_MAX_HEIGHT = 100; //FIXME get the real number
+	
 	static {
 		if(IS_TEST_BED) {
 			CAN_ID_DRIVE_TRAIN_FRONT_LEFT = 2;

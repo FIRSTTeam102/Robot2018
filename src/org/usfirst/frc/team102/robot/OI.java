@@ -6,14 +6,21 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import micobyte.frc.lib.CommonIDs;
+import micobyte.frc.lib.io.RumbleSeries;
 
 public class OI {
 	public Joystick driverJoystick;
 	public Joystick opJoystick;
 	
+	public RumbleSeries liftBottomedRumble;
+	public RumbleSeries liftToppedRumble;
+	
 	public OI() {
 		driverJoystick = new Joystick(RobotMap.JOYSTICK_ID_DRIVER);
 		opJoystick = new Joystick(RobotMap.JOYSTICK_ID_OPERATOR);
+		
+		liftBottomedRumble = new RumbleSeries().addRough(.5F);
+		liftToppedRumble = new RumbleSeries().addSoft(.5F);
 	}
 	
 	public void assignCommands() {
