@@ -14,7 +14,7 @@ public class Robot extends SelectableAutoRobot {
 	
 	public static OI oi;
 	
-	public Robot() { super("Robot 2018 (no name decided yet)"); }
+	public Robot() { super("Samus"); }
 	
 	protected void createOIAndSubsystems() {
 		oi = new OI();

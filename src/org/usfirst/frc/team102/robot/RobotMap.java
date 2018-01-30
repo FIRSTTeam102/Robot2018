@@ -13,6 +13,7 @@ public class RobotMap {
 	public static final int CAN_ID_LIFT;
 	
 	public static final int SOLENOID_ID_GRAB_ARMS = 0;
+	public static final int SOLENOID_ID_PLATFORM = 1;
 	
 	public static final double JOYSTICK_DEADBAND = .2;
 	

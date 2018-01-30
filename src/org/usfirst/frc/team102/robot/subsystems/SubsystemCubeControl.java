@@ -7,11 +7,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class SubsystemCubeControl extends Subsystem {
 	protected Solenoid grabberCylController;
+	protected Solenoid platformCylController;
 	
 	public SubsystemCubeControl() {
 		super("Cube Controller");
 		
 		grabberCylController = new Solenoid(RobotMap.SOLENOID_ID_GRAB_ARMS);
+		platformCylController = new Solenoid(RobotMap.SOLENOID_ID_PLATFORM);
 	}
 	
 	protected void initDefaultCommand() {}
@@ -36,15 +38,11 @@ public class SubsystemCubeControl extends Subsystem {
 	}
 	
 	public void flipPlatform() {
-		// Dummy method
-		// TODO implement
+		platformCylController.set(!platformCylController.get());
 	}
 	
 	public boolean getIsPlatformOut() {
-		return false;
-		
-		// Dummy method
-		// TODO implement
+		return platformCylController.get();
 	}
 	
 	public void flipTo(boolean out) {
