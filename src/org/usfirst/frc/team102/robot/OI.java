@@ -9,6 +9,7 @@ package org.usfirst.frc.team102.robot;
 
 import org.usfirst.frc.team102.robot.commands.UpDownArm;
 import org.usfirst.frc.team102.robot.commands.ArmSqueeze;
+import org.usfirst.frc.team102.robot.commands.ElevatorDown;
 import org.usfirst.frc.team102.robot.commands.MoveElevator;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -63,13 +64,13 @@ public class OI {
 		xBoxRightBumper.whenReleased(new MoveElevator(0.0));
 		
 		xBoxLeftBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxRightBumperIndex);
-		xBoxLeftBumper.whenPressed(new MoveElevator(0.5));
-		xBoxLeftBumper.whenPressed(new MoveElevator(0.0));
+		xBoxLeftBumper.whenPressed(new MoveElevator(-0.5));
+		xBoxLeftBumper.whenReleased(new MoveElevator(0.0));
 		
 		//elevator with axis
-	//	xboxStartButton = new JoystickButton(xBoxDriver, RobotMap.xBoxStartButtonIndex);
+	xboxStartButton = new JoystickButton(xBoxDriver, RobotMap.xBoxStartButtonIndex);
 		
-	//	xboxStartButton.whenPressed(new MoveElevator(-))
+	xboxStartButton.whenPressed(new ElevatorDown());
 		
 	}
 	

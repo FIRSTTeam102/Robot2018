@@ -66,7 +66,7 @@ public class RobotMap {
 	public static final int bottomSlowSwitch = 2;
 	
 	//elevatorDown
-	public boolean elevatorBoolean = false;
+	public static boolean isElevatorDown = false;
 	
 
 	

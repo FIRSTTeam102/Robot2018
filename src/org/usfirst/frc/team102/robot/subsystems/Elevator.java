@@ -53,6 +53,11 @@ public class Elevator extends Subsystem {
 		
 		rightTrigger = gamepad.getRawAxis(RobotMap.xBoxRightTriggerAxis);
 		
+		if (RobotMap.isElevatorDown = true){
+			
+			rightTrigger = rightTrigger*-1;
+			
+		}
 		if (rightTrigger>0 && topSwitch.get()){
 			elevatorMotor.set(0);
 		}
@@ -68,16 +73,16 @@ public class Elevator extends Subsystem {
 //    	if(elevatorMotor.)
     	
     	
-    	if (speed>0 && topSwitch.get()){
-    		elevatorMotor.set(0);
-    	}
-    	else if(speed<0 && bottomSwitch.get()){
-    		elevatorMotor.set(0);
-    	}
-    	else{ 
+//    	if (speed>0 && topSwitch.get()){
+//    		elevatorMotor.set(0);
+//    	}
+//    	else if(speed<0 && bottomSwitch.get()){
+//    		elevatorMotor.set(0);
+//    	}
+//    	else{ 
     		elevatorMotor.set(speed);
     		
-    	}
+//    	}
     	
     }
     //autonomous use
