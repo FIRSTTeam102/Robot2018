@@ -4,6 +4,7 @@ import org.usfirst.frc.team102.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -39,6 +40,8 @@ public class Arm extends Subsystem {
     	
     }
     
+  
+    
     public void moveArm(){
     	
     	if(upDown.get()){
@@ -55,15 +58,18 @@ public class Arm extends Subsystem {
 
 	public void squeezeArm() {
 		
+		squeeze.set(true);
+		
 		
 		if(squeeze.get()){
 			
 			squeeze.set(false);
+			System.out.println("how we doin");
 			
 		}else{
 			
 			squeeze.set(true);
-			
+			System.out.println("how");
 		}
 		
 	}

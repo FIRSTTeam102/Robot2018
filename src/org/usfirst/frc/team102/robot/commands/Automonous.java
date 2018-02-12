@@ -2,6 +2,7 @@ package org.usfirst.frc.team102.robot.commands;
 
 import org.usfirst.frc.team102.robot.Robot;
 
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -18,7 +19,23 @@ public class Automonous extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	
-    	addSequential(new DriveStraight(5, 1.0));
+    //Amanda was messing with stuff to be able to put in distance as a parameter but we'll look at it on Monday
+    	double speed;
+    	speed = 1.0;
+    	addSequential(new DriveStraight(5, speed));
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+ 
+  
+    		
+    	}
+    	//v(m/s)=1/2a(m/s2)t^2(s)
+    	
 
         // To run multiple commands at the same time,
         // use addParallel()
@@ -32,4 +49,3 @@ public class Automonous extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     }
-}

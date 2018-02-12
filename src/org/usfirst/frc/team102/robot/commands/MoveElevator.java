@@ -31,8 +31,8 @@ public class MoveElevator extends Command {
 			Robot.robotElevator.moveElevator(speed);
 
 		} catch (Exception ex1) {
-			ex1.printStackTrace();
-			DriverStation.reportError(ex1.getMessage(), true);
+//			ex1.printStackTrace();
+//			DriverStation.reportError(ex1.getMessage(), true);
 		}
 
 	}

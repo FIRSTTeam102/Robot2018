@@ -9,7 +9,6 @@ package org.usfirst.frc.team102.robot;
 
 import org.usfirst.frc.team102.robot.commands.UpDownArm;
 import org.usfirst.frc.team102.robot.commands.ArmSqueeze;
-import org.usfirst.frc.team102.robot.commands.MoveArm;
 import org.usfirst.frc.team102.robot.commands.MoveElevator;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,6 +18,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
+@SuppressWarnings("unused")
 public class OI {
 	
 	//Joysticks
@@ -33,6 +33,9 @@ public class OI {
 	
 	private JoystickButton xBoxLeftBumper;
 	private JoystickButton xBoxRightBumper;
+	
+	private JoystickButton xboxStartButton;
+	
 	
 	public OI(){
 		
@@ -53,13 +56,20 @@ public class OI {
 		xBoxX = new JoystickButton(xBoxDriver, RobotMap.xBoxXIndex);
 		
 		
-		xBoxLeftBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxLeftBumperIndex);
-		xBoxLeftBumper.whenPressed(new MoveElevator(0.5));
-		xBoxLeftBumper.whenReleased(new MoveElevator(0.0));
 		
-		xBoxRightBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxRightBumperIndex);
-		xBoxRightBumper.whenPressed(new MoveElevator(-0.5));
-		xBoxRightBumper.whenReleased(new MoveElevator(0.0)); 
+		//elevator
+		xBoxRightBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxLeftBumperIndex);
+		xBoxRightBumper.whenPressed(new MoveElevator(0.5));
+		xBoxRightBumper.whenReleased(new MoveElevator(0.0));
+		
+		xBoxLeftBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxRightBumperIndex);
+		xBoxLeftBumper.whenPressed(new MoveElevator(0.5));
+		xBoxLeftBumper.whenPressed(new MoveElevator(0.0));
+		
+		//elevator with axis
+	//	xboxStartButton = new JoystickButton(xBoxDriver, RobotMap.xBoxStartButtonIndex);
+		
+	//	xboxStartButton.whenPressed(new MoveElevator(-))
 		
 	}
 	

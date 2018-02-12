@@ -15,6 +15,9 @@ package org.usfirst.frc.team102.robot;
  */
 public class RobotMap {
 	
+	// Elevator speed
+	public static final double elevatorSpeed = .5;
+	
 	//Joystick Indexes
 	public static int driverJoystickIndex = 0;
 	public static int operatorJoystickIndex = 1;
@@ -25,11 +28,12 @@ public class RobotMap {
 	public static final int xBoxRightXAxis = 4;
 	public static final int xBoxRightYAxis = 5;
 	
+	
 	//Motor Indexes
-	public static final int m1 = 0;
-	public static final int m2 = 1;
-	public static final int m3 = 2;
-	public static final int m4 = 3;
+	public static final int m1 = 1;
+	public static final int m2 = 2;
+	public static final int m3 = 3;
+	public static final int m4 = 4;
 	public static final int m5 = 5;
 	
 	//Joystick Button Indexes
@@ -45,8 +49,8 @@ public class RobotMap {
 	public static final int xBoxRightJoystickPress = 10;
 	
 	//Joystick Trigger Axis Indexes
-	public static final int xBoxLeftTriggerAxis = 11;
-	public static final int xBoxRightTriggerAxis = 12;
+	public static final int xBoxLeftTriggerAxis = 2;
+	public static final int xBoxRightTriggerAxis = 3;
 	
 	//Solenoids
 	public static final int solenoid1Index = 0;
@@ -54,6 +58,17 @@ public class RobotMap {
 	
 	//Compressor
 	public static final int compressorIndex = 0;
+	
+	//switchesforelevator
+	public static final int topSwitch = 0;
+	public static final int bottomSwitch = 3;
+	public static final int topSlowSwitch = 1;
+	public static final int bottomSlowSwitch = 2;
+	
+	//elevatorDown
+	public boolean elevatorBoolean = false;
+	
+
 	
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.

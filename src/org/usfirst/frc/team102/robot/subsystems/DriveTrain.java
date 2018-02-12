@@ -3,7 +3,6 @@ package org.usfirst.frc.team102.robot.subsystems;
 import org.usfirst.frc.team102.robot.RobotMap;
 import org.usfirst.frc.team102.robot.commands.DriveWithXBox;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,36 +18,37 @@ public class DriveTrain extends Subsystem {
 	private MecanumDrive drive;
 
 	// Creating Motor Objects
-	WPI_TalonSRX m1;
-	WPI_TalonSRX m2;
-	WPI_TalonSRX m3;
-	WPI_TalonSRX m4;
+	WPI_TalonSRX frontLeftMotor;
+	WPI_TalonSRX backLeftMotor;
+	WPI_TalonSRX frontRightMotor;
+	WPI_TalonSRX backRightMotor;
 
 	// Creating Joystick Axis Variables
 	private double leftJoyX;
 	private double leftJoyY;
 	private double rightJoyX;
+	@SuppressWarnings("unused")
 	private double rightJoyY;
 
 	// DriveTrain constructor
 	public DriveTrain() {
 
 		// Initializing motors Motors
-		m1 = new WPI_TalonSRX(RobotMap.m1);
-		m2 = new WPI_TalonSRX(RobotMap.m2);
-		m3 = new WPI_TalonSRX(RobotMap.m3);
-		m4 = new WPI_TalonSRX(RobotMap.m4);
+		frontLeftMotor = new WPI_TalonSRX(RobotMap.m1);
+		backLeftMotor = new WPI_TalonSRX(RobotMap.m2);
+		frontRightMotor = new WPI_TalonSRX(RobotMap.m3);
+		backRightMotor = new WPI_TalonSRX(RobotMap.m4);
 
 		// drive = new MecanumDrive(m1 = new WPI_TalonSRX(RobotMap.m1), m2 = new
 		// WPI_TalonSRX(RobotMap.m2),
 		// m3 = new WPI_TalonSRX(RobotMap.m3), m4 = new
 		// WPI_TalonSRX(RobotMap.m4));
 
-		m1.setInverted(true);
-		m2.setInverted(true);
+		//m1.setInverted(true);
+		//m2.setInverted(true);
 
 		// creating an instance of MecanumDrive
-		drive = new MecanumDrive(m1, m2, m3, m4);
+		drive = new MecanumDrive(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
 
 		// turning Safety ON
 		drive.setSafetyEnabled(true);
@@ -93,7 +93,7 @@ public class DriveTrain extends Subsystem {
 		}
 
 		// putting it into method to move motors
-		drive.driveCartesian(-leftJoyY, leftJoyX, rightJoyX);
+		drive.driveCartesian(leftJoyX, -leftJoyY, rightJoyX);
 
 	}
 
