@@ -66,8 +66,10 @@ public class RobotMap {
 	public static final int bottomSlowSwitch = 2;
 	
 	//elevatorDown
-	public static boolean isElevatorDown = false;
 	
+	
+	public static boolean isTestBed = true;
+	public static boolean hasPneumatics = !isTestBed;
 
 	
 	// For example to map the left and right motors, you could define the

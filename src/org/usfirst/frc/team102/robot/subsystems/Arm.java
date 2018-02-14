@@ -20,13 +20,13 @@ public class Arm extends Subsystem {
 	Solenoid squeeze;
 	
 	public Arm(){
-		
-		upDown = new Solenoid(RobotMap.solenoid1Index);
-		squeeze = new Solenoid(RobotMap.solenoid2Index);
-		compressor = new Compressor();
-		
-		compressor.setClosedLoopControl(true);
-		
+		if(RobotMap.hasPneumatics) {
+			upDown = new Solenoid(RobotMap.solenoid1Index);
+			squeeze = new Solenoid(RobotMap.solenoid2Index);
+			compressor = new Compressor();
+			
+			compressor.setClosedLoopControl(true);
+		}
 	}
 
     public void initDefaultCommand() {
@@ -36,7 +36,7 @@ public class Arm extends Subsystem {
     
     public void moveArm(boolean isExtended){
     
-    	upDown.set(isExtended);
+    	if(RobotMap.hasPneumatics) upDown.set(isExtended);
     	
     }
     
@@ -44,32 +44,35 @@ public class Arm extends Subsystem {
     
     public void moveArm(){
     	
-    	if(upDown.get()){
-    		
-    		upDown.set(false);
-    		
-    	}else{
-    		
-    		upDown.set(true);
-    		
+    	if(RobotMap.hasPneumatics) {
+    		if(upDown.get()){
+        		
+        		upDown.set(false);
+        		
+        	}else{
+        		
+        		upDown.set(true);
+        		
+        	}
     	}
-    	
     }
 
 	public void squeezeArm() {
 		
-		squeeze.set(true);
-		
-		
-		if(squeeze.get()){
-			
-			squeeze.set(false);
-			System.out.println("how we doin");
-			
-		}else{
-			
+		if(RobotMap.hasPneumatics) {
 			squeeze.set(true);
-			System.out.println("how");
+			
+			
+			if(squeeze.get()){
+				
+				squeeze.set(false);
+				System.out.println("how we doin");
+				
+			}else{
+				
+				squeeze.set(true);
+				System.out.println("how");
+			}
 		}
 		
 	}

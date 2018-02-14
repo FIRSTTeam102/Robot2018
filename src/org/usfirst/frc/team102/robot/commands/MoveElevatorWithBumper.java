@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveElevator extends Command {
+public class MoveElevatorWithBumper extends Command {
 
 	private double speed;
 
-	public MoveElevator(double speed) {
+	public MoveElevatorWithBumper(double speed) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.robotElevator);
@@ -28,8 +28,14 @@ public class MoveElevator extends Command {
 
 		try {
 
+			if(speed == 0){
+			
+			}else{
+			
 			Robot.robotElevator.moveElevator(speed);
 
+			}
+			
 		} catch (Exception ex1) {
 //			ex1.printStackTrace();
 //			DriverStation.reportError(ex1.getMessage(), true);
@@ -39,7 +45,7 @@ public class MoveElevator extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 
 	// Called once after isFinished returns true

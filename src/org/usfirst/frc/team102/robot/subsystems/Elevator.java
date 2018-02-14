@@ -2,9 +2,6 @@ package org.usfirst.frc.team102.robot.subsystems;
 
 import org.usfirst.frc.team102.robot.Robot;
 import org.usfirst.frc.team102.robot.RobotMap;
-import org.usfirst.frc.team102.robot.commands.MoveElevator;
-import org.usfirst.frc.team102.robot.commands.MoveElevatorWithTrigger;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -23,7 +20,7 @@ public class Elevator extends Subsystem {
 	//private boolean prevTopSlow = false;
 	//private boolean downSlow = false;
 	//private boolean upSlow = false;
-	
+	public boolean isElevatorDown = false;
 	private WPI_TalonSRX elevatorMotor;
 	private DigitalInput topSwitch;
 	private DigitalInput bottomSwitch;
@@ -31,6 +28,7 @@ public class Elevator extends Subsystem {
 	//private DigitalInput bottomSlowSwitch;
 	
 	private double rightTrigger;
+	private double leftTrigger;
 	
 	
 	public Elevator(){
@@ -47,46 +45,78 @@ public class Elevator extends Subsystem {
 	}
 	
     
+	/*public void moveElevator(Joystick xBoxDriver){
+		
+		rightTrigger = xBoxDriver.getRawAxis(RobotMap.xBoxRightTriggerAxis);
+		leftTrigger = xBoxDriver.getRawAxis(RobotMap.xBoxLeftTriggerAxis);
+		
+		
+		
+	}*/
+	
 	
 	//with trigger
 	public void moveElevator(Joystick gamepad){
 		
 		rightTrigger = gamepad.getRawAxis(RobotMap.xBoxRightTriggerAxis);
-		
-		if (RobotMap.isElevatorDown = true){
+		leftTrigger = gamepad.getRawAxis(RobotMap.xBoxLeftTriggerAxis);
+		double elevatorSpeed = 0;
+		if (isElevatorDown){
 			
 			rightTrigger = rightTrigger*-1;
-			
+			leftTrigger = leftTrigger * -1;
 		}
-		if (rightTrigger>0 && topSwitch.get()){
-			elevatorMotor.set(0);
+		//Limit switches have a not before them because they are "Active Low"
+		//Which means that they will return true until they are pushed
+		if (rightTrigger>0  ){
+			if(!topSwitch.get()){
+				elevatorSpeed = 0;
+			}
+			else{
+				elevatorSpeed = -rightTrigger;
+			}
 		}
-		else{
-		elevatorMotor.set(rightTrigger);
+		
+		else if(leftTrigger>0){
+			if(!bottomSwitch.get()){
+				elevatorSpeed = 0;
+			}
+			else{
+				elevatorSpeed = leftTrigger;
+			}
+		} 
+		
+		if(Robot.oi.getLeftBumper()){
+			elevatorSpeed = -RobotMap.elevatorSpeed;
 		}
+		
+		else if(Robot.oi.getRightBumper()){
+			elevatorSpeed = RobotMap.elevatorSpeed;
+		}
+		
+		moveElevator(elevatorSpeed);
 		}
 	
-	
-    //withbumpers
+	//withbumpers
     public void moveElevator(double speed){
     	
-//    	if(elevatorMotor.)
+    	if(speed>0 && !topSwitch.get()){
+    		
+    		elevatorMotor.set(0);
+    		
+    	}else if(speed<0 && !bottomSwitch.get()){
     	
-    	
-//    	if (speed>0 && topSwitch.get()){
-//    		elevatorMotor.set(0);
-//    	}
-//    	else if(speed<0 && bottomSwitch.get()){
-//    		elevatorMotor.set(0);
-//    	}
-//    	else{ 
+    		elevatorMotor.set(0);
+    		
+    	}else{
+    		
     		elevatorMotor.set(speed);
     		
-//    	}
+    	}
     	
     }
     //autonomous use
-    public void moveElevator(){
+    public void moveElevator() {
     	
     	elevatorMotor.set(.5);
     	
@@ -95,7 +125,7 @@ public class Elevator extends Subsystem {
     //
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new MoveElevatorWithTrigger());
+		//setDefaultCommand(new MoveElevatorWithTrigger());
 		
 	//
 		

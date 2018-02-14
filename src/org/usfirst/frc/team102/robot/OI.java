@@ -10,7 +10,7 @@ package org.usfirst.frc.team102.robot;
 import org.usfirst.frc.team102.robot.commands.UpDownArm;
 import org.usfirst.frc.team102.robot.commands.ArmSqueeze;
 import org.usfirst.frc.team102.robot.commands.ElevatorDown;
-import org.usfirst.frc.team102.robot.commands.MoveElevator;
+import org.usfirst.frc.team102.robot.commands.MoveElevatorWithBumper;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -60,12 +60,12 @@ public class OI {
 		
 		//elevator
 		xBoxRightBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxLeftBumperIndex);
-		xBoxRightBumper.whenPressed(new MoveElevator(0.5));
-		xBoxRightBumper.whenReleased(new MoveElevator(0.0));
+//		xBoxRightBumper.whenPressed(new MoveElevatorWithBumper(0.5));
+//		xBoxRightBumper.whenReleased(new MoveElevatorWithBumper(0.0));
 		
 		xBoxLeftBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxRightBumperIndex);
-		xBoxLeftBumper.whenPressed(new MoveElevator(-0.5));
-		xBoxLeftBumper.whenReleased(new MoveElevator(0.0));
+//		xBoxLeftBumper.whenPressed(new MoveElevatorWithBumper(-0.5));
+//		xBoxLeftBumper.whenReleased(new MoveElevatorWithBumper(0.0));
 		
 		//elevator with axis
 	xboxStartButton = new JoystickButton(xBoxDriver, RobotMap.xBoxStartButtonIndex);
@@ -89,5 +89,13 @@ public class OI {
 		return xBoxOperator;
 		
 	}
+
 	
+	public boolean getLeftBumper() {
+		return xBoxLeftBumper.get();
+	}
+	
+	public boolean getRightBumper() {
+		return xBoxRightBumper.get();
+	}
 }

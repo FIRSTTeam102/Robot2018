@@ -6,9 +6,7 @@ import org.usfirst.frc.team102.robot.RobotMap;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
+
 public class MoveElevatorWithTrigger extends Command {
 
     public MoveElevatorWithTrigger() {
@@ -24,12 +22,16 @@ public class MoveElevatorWithTrigger extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
     	try{
-    	Robot.robotElevator.moveElevator(RobotMap.driverJoystickIndex);
-    	}
-    	catch(Exception ex1){
+    		
+    	Robot.robotElevator.moveElevator(Robot.oi.getDriverJoystick());
+    	
+    	} catch(Exception ex1){
+    		
     		ex1.printStackTrace();
     		DriverStation.reportError(ex1.getMessage(), true);
+    		
     	}
     }
 
