@@ -18,7 +18,7 @@ public class Automonous extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	
+    	//arguments: DriveStraight(speed, distanceToGo)
     	addSequential(new DriveStraight(5, 1.0));
     	
     	

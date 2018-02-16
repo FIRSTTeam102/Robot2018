@@ -10,14 +10,17 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveStraight extends Command {
 	
-	private double speed;
+	private double percentSpeed;
+	private double distanceToGo;
+	private double distanceTraveled;
 	
-    public DriveStraight(double timeout, double speed) {
+	//just changed argument from "double speed and double time"
+    public DriveStraight( double percentSpeed, double distanceToGo) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.robotDriveTrain);
-    	setTimeout(timeout);
-    	this.speed = speed;
+    	//setTimeout(timeout);
+    	
     	
     }
 
@@ -30,8 +33,13 @@ public class DriveStraight extends Command {
     	
     	try{
     		
-    		Robot.robotDriveTrain.driveStraight(speed);
-    		
+    		Robot.robotDriveTrain.driveStraight(percentSpeed);
+    		distanceTraveled = Robot.robotDriveTrain.distanceCounter(percentSpeed);
+    		if (distanceTraveled == distanceToGo) {
+    			Robot.robotDriveTrain.driveStraight(0.0);
+    			
+    		}
+    		//left to do: when distance (in the distance counter method) is equal to the distanceToGo (put in in the command) stop the motors
     	}catch(Exception ex1){
     		
     		ex1.printStackTrace();

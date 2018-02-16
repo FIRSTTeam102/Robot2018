@@ -6,6 +6,7 @@ import org.usfirst.frc.team102.robot.commands.DriveWithXBox;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
@@ -29,6 +30,11 @@ public class DriveTrain extends Subsystem {
 	private double rightJoyX;
 	@SuppressWarnings("unused")
 	private double rightJoyY;
+	
+	//variables needed for distance counter
+	private static double speed = 21.19;
+	private double time;
+	Timer timer = new Timer();
 
 	// DriveTrain constructor
 	public DriveTrain() {
@@ -103,6 +109,15 @@ public class DriveTrain extends Subsystem {
 		// moves motors forward
 		drive.driveCartesian(speed, 0.0, 0.0);
 
+	}
+	
+	public double distanceCounter(double percentSpeed){
+		double distance;
+		time = timer.get();
+		
+		distance = percentSpeed*speed*time;
+		
+		return distance;
 	}
 
 }

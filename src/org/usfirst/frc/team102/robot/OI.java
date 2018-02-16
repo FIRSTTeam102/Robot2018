@@ -43,27 +43,27 @@ public class OI {
 		xBoxOperator = new Joystick(RobotMap.operatorJoystickIndex);
 
 		// Initialize Joystick Buttons
-		xBoxA = new JoystickButton(xBoxDriver, RobotMap.xBoxAIndex);
+		xBoxA = new JoystickButton(xBoxOperator, RobotMap.xBoxAIndex);
 
-		xBoxB = new JoystickButton(xBoxDriver, RobotMap.xBoxBIndex);
+		xBoxB = new JoystickButton(xBoxOperator, RobotMap.xBoxBIndex);
 		xBoxB.whenPressed(new ArmSqueeze());
 
-		xBoxY = new JoystickButton(xBoxDriver, RobotMap.xBoxYIndex);
+		xBoxY = new JoystickButton(xBoxOperator, RobotMap.xBoxYIndex);
 		xBoxY.whenPressed(new UpDownArm());
 
-		xBoxX = new JoystickButton(xBoxDriver, RobotMap.xBoxXIndex);
+		xBoxX = new JoystickButton(xBoxOperator, RobotMap.xBoxXIndex);
 
 		// elevator
-		xBoxRightBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxLeftBumperIndex);
+		xBoxRightBumper = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
 		xBoxRightBumper.whenPressed(new MoveElevatorWithBumper(0.5));
 		xBoxRightBumper.whenReleased(new MoveElevatorWithBumper(0.0));
 
-		xBoxLeftBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxRightBumperIndex);
+		xBoxLeftBumper = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
 		xBoxLeftBumper.whenPressed(new MoveElevatorWithBumper(-0.5));
 		xBoxLeftBumper.whenReleased(new MoveElevatorWithBumper(0.0));
 
 		// elevator with axis
-		xboxStartButton = new JoystickButton(xBoxDriver, RobotMap.xBoxStartButtonIndex);
+		xboxStartButton = new JoystickButton(xBoxOperator, RobotMap.xBoxStartButtonIndex);
 
 	}
 

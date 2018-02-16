@@ -26,7 +26,7 @@ public class MoveElevatorWithTrigger extends Command {
 
 			if(Robot.robotElevator.isBumper == false){
 				
-				Robot.robotElevator.moveElevatorWithTriggers(Robot.oi.getDriverJoystick());
+				Robot.robotElevator.moveElevatorWithTriggers(Robot.oi.getOperatorJoystick());
 				
 			}
 			
