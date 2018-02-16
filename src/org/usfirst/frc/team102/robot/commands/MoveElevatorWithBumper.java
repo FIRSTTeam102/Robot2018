@@ -27,18 +27,23 @@ public class MoveElevatorWithBumper extends Command {
 	protected void execute() {
 
 		try {
+			if (speed != 0) {
 
-			if(speed == 0){
-			
-			}else{
-			
-			Robot.robotElevator.moveElevator(speed);
+				Robot.robotElevator.isBumper = true;
+
+				Robot.robotElevator.moveElevatorWithBumpers(speed);
+
+			} else if (speed == 0) {
+
+				Robot.robotElevator.isBumper = false;
+				
+				Robot.robotElevator.moveElevatorWithBumpers(speed);
 
 			}
-			
+
 		} catch (Exception ex1) {
-//			ex1.printStackTrace();
-//			DriverStation.reportError(ex1.getMessage(), true);
+			 ex1.printStackTrace();
+			 DriverStation.reportError(ex1.getMessage(), true);
 		}
 
 	}

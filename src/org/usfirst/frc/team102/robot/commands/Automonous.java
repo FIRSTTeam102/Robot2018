@@ -19,10 +19,7 @@ public class Automonous extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	
-    //Amanda was messing with stuff to be able to put in distance as a parameter but we'll look at it on Monday
-    	double speed;
-    	speed = 1.0;
-    	addSequential(new DriveStraight(5, speed));
+    	addSequential(new DriveStraight(5, 1.0));
     	
     	
     	

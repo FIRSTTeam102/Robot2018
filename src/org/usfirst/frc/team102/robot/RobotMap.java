@@ -15,9 +15,6 @@ package org.usfirst.frc.team102.robot;
  */
 public class RobotMap {
 	
-	// Elevator speed
-	public static final double elevatorSpeed = .5;
-	
 	//Joystick Indexes
 	public static int driverJoystickIndex = 0;
 	public static int operatorJoystickIndex = 1;
@@ -69,7 +66,6 @@ public class RobotMap {
 	
 	
 	public static boolean isTestBed = true;
-	public static boolean hasPneumatics = !isTestBed;
 
 	
 	// For example to map the left and right motors, you could define the

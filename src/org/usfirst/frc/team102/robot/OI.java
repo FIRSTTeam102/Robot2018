@@ -9,7 +9,6 @@ package org.usfirst.frc.team102.robot;
 
 import org.usfirst.frc.team102.robot.commands.UpDownArm;
 import org.usfirst.frc.team102.robot.commands.ArmSqueeze;
-import org.usfirst.frc.team102.robot.commands.ElevatorDown;
 import org.usfirst.frc.team102.robot.commands.MoveElevatorWithBumper;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -21,81 +20,72 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 @SuppressWarnings("unused")
 public class OI {
-	
-	//Joysticks
+
+	// Joysticks
 	private Joystick xBoxDriver;
 	private Joystick xBoxOperator;
-	
-	//Joystick Buttons
-	private JoystickButton xBoxA; 
-	private JoystickButton xBoxY; 
-	private JoystickButton xBoxB; 
-	private JoystickButton xBoxX; 
-	
+
+	// Joystick Buttons
+	private JoystickButton xBoxA;
+	private JoystickButton xBoxY;
+	private JoystickButton xBoxB;
+	private JoystickButton xBoxX;
+
 	private JoystickButton xBoxLeftBumper;
 	private JoystickButton xBoxRightBumper;
-	
+
 	private JoystickButton xboxStartButton;
-	
-	
-	public OI(){
-		
-		//Initialize Joysticks
+
+	public OI() {
+
+		// Initialize Joysticks
 		xBoxDriver = new Joystick(RobotMap.driverJoystickIndex);
 		xBoxOperator = new Joystick(RobotMap.operatorJoystickIndex);
-		
-		//Initialize Joystick Buttons
+
+		// Initialize Joystick Buttons
 		xBoxA = new JoystickButton(xBoxDriver, RobotMap.xBoxAIndex);
-		
-		
+
 		xBoxB = new JoystickButton(xBoxDriver, RobotMap.xBoxBIndex);
 		xBoxB.whenPressed(new ArmSqueeze());
-		
+
 		xBoxY = new JoystickButton(xBoxDriver, RobotMap.xBoxYIndex);
 		xBoxY.whenPressed(new UpDownArm());
-		
+
 		xBoxX = new JoystickButton(xBoxDriver, RobotMap.xBoxXIndex);
-		
-		
-		
-		//elevator
+
+		// elevator
 		xBoxRightBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxLeftBumperIndex);
-//		xBoxRightBumper.whenPressed(new MoveElevatorWithBumper(0.5));
-//		xBoxRightBumper.whenReleased(new MoveElevatorWithBumper(0.0));
-		
+		xBoxRightBumper.whenPressed(new MoveElevatorWithBumper(0.5));
+		xBoxRightBumper.whenReleased(new MoveElevatorWithBumper(0.0));
+
 		xBoxLeftBumper = new JoystickButton(xBoxDriver, RobotMap.xBoxRightBumperIndex);
-//		xBoxLeftBumper.whenPressed(new MoveElevatorWithBumper(-0.5));
-//		xBoxLeftBumper.whenReleased(new MoveElevatorWithBumper(0.0));
-		
-		//elevator with axis
-	xboxStartButton = new JoystickButton(xBoxDriver, RobotMap.xBoxStartButtonIndex);
-		
-	xboxStartButton.whenPressed(new ElevatorDown());
-		
-	}
-	
-	//Method to get Driver Joystick
-	public Joystick getDriverJoystick() {
-		
-		//returns driver Joystick
-		return xBoxDriver;
-		
-	}
-	
-	//Mehtod to get Operator Joystick
-	public Joystick getOperatorJoystick(){
-		
-		//return operator Joystick
-		return xBoxOperator;
-		
+		xBoxLeftBumper.whenPressed(new MoveElevatorWithBumper(-0.5));
+		xBoxLeftBumper.whenReleased(new MoveElevatorWithBumper(0.0));
+
+		// elevator with axis
+		xboxStartButton = new JoystickButton(xBoxDriver, RobotMap.xBoxStartButtonIndex);
+
 	}
 
-	
-	public boolean getLeftBumper() {
-		return xBoxLeftBumper.get();
+	// Method to get Driver Joystick
+	public Joystick getDriverJoystick() {
+
+		// returns driver Joystick
+		return xBoxDriver;
+
 	}
-	
-	public boolean getRightBumper() {
-		return xBoxRightBumper.get();
+
+	// Mehtod to get Operator Joystick
+	public Joystick getOperatorJoystick() {
+
+		// return operator Joystick
+		return xBoxOperator;
+
 	}
+
+	/*
+	 * public boolean getLeftBumper() { return xBoxLeftBumper.get(); }
+	 * 
+	 * public boolean getRightBumper() { return xBoxRightBumper.get(); }
+	 */
 }
