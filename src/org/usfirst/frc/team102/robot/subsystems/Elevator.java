@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import micobyte.frc.lib.subsystem.UpdateableSubsystem;
 
 /**
  *
@@ -19,16 +18,13 @@ public class Elevator extends Subsystem {
 
 	// Create motor object
 
-	// private boolean prevBottomSlow = false;
-	// private boolean prevTopSlow = false;
-	// private boolean downSlow = false;
-	// private boolean upSlow = false;
 	public boolean isBumper;
+	private boolean isSlow;
 	private WPI_TalonSRX elevatorMotor;
 	private DigitalInput topSwitch;
 	private DigitalInput bottomSwitch;
-	// private DigitalInput topSlowSwitch;
-	// private DigitalInput bottomSlowSwitch;
+	private DigitalInput topSlowSwitch;
+	private DigitalInput bottomSlowSwitch;
 
 	private double rightTrigger;
 	private double leftTrigger;
@@ -39,10 +35,12 @@ public class Elevator extends Subsystem {
 
 		topSwitch = new DigitalInput(RobotMap.topSwitch);
 		bottomSwitch = new DigitalInput(RobotMap.bottomSwitch);
-
+		topSlowSwitch = new DigitalInput(RobotMap.topSlowSwitch);
+		bottomSlowSwitch = new DigitalInput(RobotMap.bottomSlowSwitch);
+		
 		isBumper = false;
-		// topSlowSwitch = new DigitalInput(RobotMap.topSlowSwitch);
-		// bottomSlowSwitch = new DigitalInput(RobotMap.bottomSlowSwitch);
+		isSlow = false;
+
 
 		// elevatorMotor.setInverted(true);
 
@@ -50,21 +48,7 @@ public class Elevator extends Subsystem {
 
 	public void moveElevatorWithBumpers(double speed) {
 
-		if (speed > 0 && !topSwitch.get()) {
-
-			elevatorMotor.set(0);
-			// isBumper = false;
-
-		} else if (speed < 0 && !bottomSwitch.get()) {
-
-			elevatorMotor.set(0);
-			// isBumper = false;
-
-		} else {
-
-			elevatorMotor.set(speed);
-
-		}
+		set(speed);
 
 	}
 
@@ -73,11 +57,11 @@ public class Elevator extends Subsystem {
 		rightTrigger = xBoxDriver.getRawAxis(RobotMap.xBoxRightTriggerAxis);
 		leftTrigger = xBoxDriver.getRawAxis(RobotMap.xBoxLeftTriggerAxis);
 
-		System.out.println("Right Trigger Axis: " + RobotMap.xBoxRightTriggerAxis);
+		/*System.out.println("Right Trigger Axis: " + RobotMap.xBoxRightTriggerAxis);
 		System.out.println("Left Trigger Axis: " + RobotMap.xBoxLeftTriggerAxis);
 		System.out.println("Right Trigger: " + rightTrigger);
-		System.out.println("Left Trigger: " + leftTrigger);
-		
+		System.out.println("Left Trigger: " + leftTrigger);*/
+
 		rightTrigger = -rightTrigger;
 
 		if (rightTrigger >= -0.1) {
@@ -90,40 +74,66 @@ public class Elevator extends Subsystem {
 
 		}
 
-		
-
 		if (rightTrigger < 0) {
-
-			if (!topSwitch.get()) {
-
-				elevatorMotor.set(0);
-
-			} else {
-
-				elevatorMotor.set(rightTrigger);
-
-			}
-
+			set(rightTrigger);
 		} else if (leftTrigger > 0) {
-
-			if (!bottomSwitch.get()) {
-
-				elevatorMotor.set(0);
-
-			} else {
-
-				elevatorMotor.set(leftTrigger);
-
-			}
-
+			set(leftTrigger);
 		} else {
-
-			elevatorMotor.set(0);
-
+			set(0);
 		}
 
+		/*System.out.println(!bottomSwitch.get());
+		System.out.println(elevatorMotor.get());*/
+		
 	}
 
+	public void set(double speed) {
+		
+		//took out or's to prevent recognizing top switch when going up and bottom when going down
+		/*if(!topSlowSwitch.get() || !bottomSlowSwitch.get()) {
+			isSlow = true;
+		}
+		
+		// slow toggle off
+		if(isSlow && (!topSwitch.get() || !bottomSwitch.get())) {
+			isSlow = false;
+		}*/
+		//slow toggle on
+		if (speed > 0 && !bottomSlowSwitch.get()){
+			isSlow = true;
+		}
+		if (speed < 0 && !topSlowSwitch.get()){
+			isSlow = true;
+		}
+		
+		
+		// bottom limit switch
+		if(speed > 0 && !bottomSwitch.get()){
+			speed = 0;
+			isSlow = false;
+		}
+		
+		// top limit switch
+		if(speed < 0 && !topSwitch.get()){
+			speed = 0;
+			isSlow = false;
+		}
+		
+		// slow mode
+		if(isSlow) {
+			speed /= 2;
+		}
+		
+		Robot.robotLights.setScrollingFromSpeed(-speed);
+		
+		// gravitational compensation
+		if(speed == 0) {
+			speed = -.1;
+		}
+		
+		elevatorMotor.set(speed);
+	}
+	
 	// withbumpers
 
 	// with trigger
@@ -152,9 +162,9 @@ public class Elevator extends Subsystem {
 	 */
 
 	// autonomous use
-	public void moveElevator() {
+	public void moveElevator(double speed) {
 
-		elevatorMotor.set(.5);
+		set(speed);
 
 	}
 

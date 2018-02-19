@@ -57,10 +57,10 @@ public class RobotMap {
 	public static final int compressorIndex = 0;
 	
 	//switchesforelevator
-	public static final int topSwitch = 0;
+	public static final int topSwitch = 0; 
 	public static final int bottomSwitch = 3;
-	public static final int topSlowSwitch = 1;
-	public static final int bottomSlowSwitch = 2;
+	public static final int topSlowSwitch = 1; 
+	public static final int bottomSlowSwitch = 2; 
 	
 	//elevatorDown
 	
