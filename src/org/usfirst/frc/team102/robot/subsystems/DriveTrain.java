@@ -1,10 +1,12 @@
 package org.usfirst.frc.team102.robot.subsystems;
 
+
+
 import org.usfirst.frc.team102.robot.RobotMap;
 import org.usfirst.frc.team102.robot.commands.DriveWithXBox;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,7 +18,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 public class DriveTrain extends Subsystem {
 
 	// Creating MecanumDrive Object
-	private MecanumDrive drive;
+	protected static MecanumDrive drive;
 
 	// Creating Motor Objects
 	WPI_TalonSRX frontLeftMotor;
@@ -32,18 +34,27 @@ public class DriveTrain extends Subsystem {
 	private double rightJoyY;
 	
 	//variables needed for distance counter
-	private static double speed = 21.19;
+	private static double metersPerSec = 21.19;
 	private double time;
 	Timer timer = new Timer();
+	
+	
+	
+	//driver station info
+	DriverStation driverStation;
+	
+	
+	
 
 	// DriveTrain constructor
-	public DriveTrain() {
+	 public DriveTrain() {
 
 		// Initializing motors Motors
 		frontLeftMotor = new WPI_TalonSRX(RobotMap.m1);
 		backLeftMotor = new WPI_TalonSRX(RobotMap.m2);
 		frontRightMotor = new WPI_TalonSRX(RobotMap.m3);
 		backRightMotor = new WPI_TalonSRX(RobotMap.m4);
+		driverStation = DriverStation.getInstance();
 
 		// drive = new MecanumDrive(m1 = new WPI_TalonSRX(RobotMap.m1), m2 = new
 		// WPI_TalonSRX(RobotMap.m2),
@@ -102,22 +113,48 @@ public class DriveTrain extends Subsystem {
 		drive.driveCartesian(leftJoyX, -leftJoyY, rightJoyX);
 
 	}
+	
+	//BEWARE: AUTONOMOUS BEYOND THIS POINT
 
 	// Method to drive robot straight
-	public void driveStraight(double speed) {
+		public void driveStraight(double speed) {
 
-		// moves motors forward
-		drive.driveCartesian(speed, 0.0, 0.0);
-
-	}
+			// moves motors forward
+			DriveTrain.drive.driveCartesian(speed, 0.0, 0.0);
+		}
+			
+			//driveSideways in auto
+			public void driveSideways(double direction) {
+				drive.driveCartesian(0, direction, 0);
+			}
+			
+			public double distanceCounter(double percentSpeed){
+				double distance;
+				timer.start();
+				time = timer.get();
+				
+				distance = percentSpeed*metersPerSec*time;
+				
+				return distance;
+			}
+			public Timer getTimer(){
+				return timer;
+			}
+			public DriverStation getDriverStation(){
+				return driverStation;
+			}
+			
+			//turn 90 degrees
+			public void turn(double turnSpeed){
 	
-	public double distanceCounter(double percentSpeed){
-		double distance;
-		time = timer.get();
+				drive.driveCartesian(0.0,0.0, turnSpeed);
+
+			}
+			
+			//SameSwitchSideScore
+			//SS= same side
 		
-		distance = percentSpeed*speed*time;
-		
-		return distance;
-	}
+				
+
 
 }

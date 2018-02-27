@@ -2,19 +2,23 @@ package org.usfirst.frc.team102.robot.commands;
 
 import org.usfirst.frc.team102.robot.Robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DriveWithXBox extends Command {
+public class Turn extends Command {
 
-    public DriveWithXBox() {
+	double seconds;
+	double speed;
+	
+    public Turn(double speed, double seconds) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	//Sets that it needs the drivetrain
     	requires(Robot.robotDriveTrain);
+    	this.speed = speed;
+    	this.seconds = seconds;
+    	
     }
 
     // Called just before this Command runs the first time
@@ -23,16 +27,9 @@ public class DriveWithXBox extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//Executes method in drivetrain that moves robot pulling joystick from OI
-    	//Try catch so robot doesn't quit
-    	try {
-    		
-    		Robot.robotDriveTrain.driveWithXBox(Robot.oi.getDriverJoystick());
-		
-    	} catch (Exception ex1) {
-			ex1.printStackTrace();
-			DriverStation.reportError(ex1.getMessage(), true);
-		}
+    	
+    	Robot.robotDriveTrain.turn(speed);;
+    	setTimeout(seconds);
     }
 
     // Make this return true when this Command no longer needs to run execute()
