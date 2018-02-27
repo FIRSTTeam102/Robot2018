@@ -18,7 +18,7 @@ public class ScoreSwitchSS extends CommandGroup {
     	if (robotPos==1){
     		addSequential(new Turn(0.75, 1.0));
     	}
-    	else {
+    	else if(robotPos == 3) {
     		addSequential(new Turn(-0.75, 1.0));
     	}
     	

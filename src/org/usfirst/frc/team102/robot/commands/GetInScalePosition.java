@@ -1,26 +1,23 @@
 package org.usfirst.frc.team102.robot.commands;
 
+import org.usfirst.frc.team102.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class ScoreFromCenter extends CommandGroup {
-	private char switchPos;
+public class GetInScalePosition extends CommandGroup {
+	private int botPos;
 
-    public ScoreFromCenter(char switchPos) {
-    	this.switchPos = switchPos;
-    	
-    	if(switchPos == 'L'){
-    		addSequential(new DriveStraight(0.75, 1.5));
-    		addSequential(new DriveSideways(0.75, true, 6.5));
-    		addSequential(new MoveElevator(0.75, 2));
-    		addSequential(new DriveStraight(0.75, 3));
+    public GetInScalePosition(int botPos) {
+    	requires(Robot.robotDriveTrain);
+    	addSequential(new DriveStraight(0.75, 27));
+    	if(botPos ==  1){
+    		addSequential(new DriveSideways(0.75, false, 5 ));
     	}
-    	else{
-    		addSequential(new DriveSideways(0.75, false, 4.3));
-    		addSequential(new MoveElevator(0.75, 2));
-    		addSequential(new DriveStraight(0.75, 6));
+    	else if(botPos == 3){
+    		addSequential(new DriveSideways(0.75, true, 5));
     	}
         // Add Commands here:
         // e.g. addSequential(new Command1());

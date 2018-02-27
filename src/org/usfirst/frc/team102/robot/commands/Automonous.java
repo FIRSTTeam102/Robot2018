@@ -19,7 +19,7 @@ public class Automonous extends CommandGroup {
     	SendableChooser <Command> dropDown = new SendableChooser <Command>();
     	//dropDown.addObject("Left Score Switch", new );
     	//dropdownoptions
-    	//String option1 = ;
+    	String option1 = "";
     	String option2 = "Left Score Scale"; 
     	String option3 = "Left Cross Line";	
     	String option4 = "Right score Switch";
@@ -45,9 +45,9 @@ public class Automonous extends CommandGroup {
     	
     	
     	
-    	dropDown.addObject(name, object);
+    	//dropDown.addObject(name, object);
     	
-    	if(driverStationMessage.charAt(1) == 'L' && robotPos == 1 || driverStationMessage.charAt(1)=='R' && robotPos == 3){
+    	/*if(driverStationMessage.charAt(1) == 'L' && robotPos == 1 || driverStationMessage.charAt(1)=='R' && robotPos == 3){
     		addSequential(new DriveStraight(0.5, 15));
     		if(driverStationMessage.charAt(1) == 'L'){
     			addSequential(new DriveSideways(0.5, false, 2));
@@ -67,7 +67,7 @@ public class Automonous extends CommandGroup {
     			addSequential(new DriveSideways(0.5, false, 2));
     		}
     	}
-    	
+    	*/
     	//If we are to the left, the following should be implemented in autonomous:
     	//Cross auto line, strafe all the way right and score
     	//If we are in the middle, the following should be implemented in autonomous:
