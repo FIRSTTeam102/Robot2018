@@ -59,5 +59,9 @@ public class Arm extends Subsystem {
 		}
 
 	}
-
+	
+	public void reset() {
+		squeeze.set(false);
+		upDown.set(false);
+	}
 }

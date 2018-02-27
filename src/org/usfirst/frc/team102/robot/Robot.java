@@ -59,6 +59,8 @@ public class Robot extends TimedRobot {
 			DriverStation.reportError(ex1.getMessage(), true);
 		}
 
+		robotLights.onDisabled();
+		
 		//chooser.addDefault("Default Auto", new Automonous());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
@@ -94,6 +96,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		robotLights.onAutoStarted();
+		robotArm.reset();
 		
 		autonomousCommand = chooser.getSelected();
 
@@ -121,6 +124,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		robotLights.onTeleopStarted();
+		robotArm.reset();
 		
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to

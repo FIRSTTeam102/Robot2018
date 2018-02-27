@@ -54,33 +54,33 @@ public class Elevator extends Subsystem {
 
 	public void moveElevatorWithTriggers(Joystick xBoxDriver) {
 
-		rightTrigger = xBoxDriver.getRawAxis(RobotMap.xBoxRightTriggerAxis);
-		leftTrigger = xBoxDriver.getRawAxis(RobotMap.xBoxLeftTriggerAxis);
+		rightTrigger = xBoxDriver.getRawAxis(RobotMap.xBoxLeftYAxis/*RightTriggerAxis*/);
+		//leftTrigger = xBoxDriver.getRawAxis(RobotMap.xBoxLeftTriggerAxis);
 
 		/*System.out.println("Right Trigger Axis: " + RobotMap.xBoxRightTriggerAxis);
 		System.out.println("Left Trigger Axis: " + RobotMap.xBoxLeftTriggerAxis);
 		System.out.println("Right Trigger: " + rightTrigger);
 		System.out.println("Left Trigger: " + leftTrigger);*/
 
-		rightTrigger = -rightTrigger;
+		//rightTrigger = -rightTrigger;
 
-		if (rightTrigger >= -0.1) {
+		if (Math.abs(rightTrigger) <= 0.1) {
 
 			rightTrigger = 0;
 
-		} else if (leftTrigger <= 0.1) {
+		}/* else if (leftTrigger <= 0.1) {
 
 			leftTrigger = 0;
 
-		}
+		}*/
 
-		if (rightTrigger < 0) {
+		//if (rightTrigger < 0) {
 			set(rightTrigger);
-		} else if (leftTrigger > 0) {
+		/*} else if (leftTrigger > 0) {
 			set(leftTrigger);
 		} else {
 			set(0);
-		}
+		}*/
 
 		/*System.out.println(!bottomSwitch.get());
 		System.out.println(elevatorMotor.get());*/
