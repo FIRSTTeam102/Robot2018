@@ -2,7 +2,7 @@ package org.usfirst.frc.team102.robot.subsystems;
 
 import org.usfirst.frc.team102.robot.Robot;
 import org.usfirst.frc.team102.robot.RobotMap;
-import org.usfirst.frc.team102.robot.commands.MoveElevatorWithTrigger;
+import org.usfirst.frc.team102.robot.commands.MoveElevatorWithJoystick;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -19,6 +19,7 @@ public class Elevator extends Subsystem {
 	// Create motor object
 
 	public boolean isBumper;
+
 	private boolean isSlow;
 	private WPI_TalonSRX elevatorMotor;
 	private DigitalInput topSwitch;
@@ -26,8 +27,7 @@ public class Elevator extends Subsystem {
 	private DigitalInput topSlowSwitch;
 	private DigitalInput bottomSlowSwitch;
 
-	private double rightTrigger;
-	private double leftTrigger;
+	private double leftJoystickY;
 
 	public Elevator() {
 
@@ -37,12 +37,10 @@ public class Elevator extends Subsystem {
 		bottomSwitch = new DigitalInput(RobotMap.bottomSwitch);
 		topSlowSwitch = new DigitalInput(RobotMap.topSlowSwitch);
 		bottomSlowSwitch = new DigitalInput(RobotMap.bottomSlowSwitch);
-		
+
 		isBumper = false;
-		isSlow = false;
 
-
-		// elevatorMotor.setInverted(true);
+		elevatorMotor.setInverted(true);
 
 	}
 
@@ -52,88 +50,165 @@ public class Elevator extends Subsystem {
 
 	}
 
-	public void moveElevatorWithTriggers(Joystick xBoxDriver) {
+	public void moveElevatorWithJoystick(Joystick xBoxDriver) {
 
-		rightTrigger = xBoxDriver.getRawAxis(RobotMap.xBoxLeftYAxis/*RightTriggerAxis*/);
-		//leftTrigger = xBoxDriver.getRawAxis(RobotMap.xBoxLeftTriggerAxis);
+		leftJoystickY = xBoxDriver.getRawAxis(RobotMap.xBoxLeftYAxis);
 
-		/*System.out.println("Right Trigger Axis: " + RobotMap.xBoxRightTriggerAxis);
-		System.out.println("Left Trigger Axis: " + RobotMap.xBoxLeftTriggerAxis);
-		System.out.println("Right Trigger: " + rightTrigger);
-		System.out.println("Left Trigger: " + leftTrigger);*/
+		/*
+		 * System.out.println("Right Trigger Axis: " +
+		 * RobotMap.xBoxRightTriggerAxis); System.out.println(
+		 * "Left Trigger Axis: " + RobotMap.xBoxLeftTriggerAxis);
+		 * System.out.println("Right Trigger: " + rightTrigger);
+		 * System.out.println("Left Trigger: " + leftTrigger);
+		 */
 
-		//rightTrigger = -rightTrigger;
+		if (Math.abs(leftJoystickY) <= 0.1) {
 
-		if (Math.abs(rightTrigger) <= 0.1) {
+			leftJoystickY = 0;
 
-			rightTrigger = 0;
+		}
 
-		}/* else if (leftTrigger <= 0.1) {
+		set(leftJoystickY);
 
-			leftTrigger = 0;
+		/*
+		 * else if (leftTrigger <= 0.1) {
+		 * 
+		 * leftTrigger = 0;
+		 * 
+		 * }
+		 */
 
-		}*/
+		// if (rightTrigger < 0) {
 
-		//if (rightTrigger < 0) {
-			set(rightTrigger);
-		/*} else if (leftTrigger > 0) {
-			set(leftTrigger);
-		} else {
-			set(0);
-		}*/
+		/*
+		 * } else if (leftTrigger > 0) { set(leftTrigger); } else { set(0); }
+		 */
 
-		/*System.out.println(!bottomSwitch.get());
-		System.out.println(elevatorMotor.get());*/
-		
+		/*
+		 * System.out.println(!bottomSwitch.get());
+		 * System.out.println(elevatorMotor.get());
+		 */
+
 	}
 
 	public void set(double speed) {
-		
-		//took out or's to prevent recognizing top switch when going up and bottom when going down
-		/*if(!topSlowSwitch.get() || !bottomSlowSwitch.get()) {
-			isSlow = true;
+
+		if (speed > 0) {
+
+			if (!bottomSwitch.get()) {
+
+				isSlow = false;
+
+			}
+			
+			if(!bottomSlowSwitch.get()){
+				
+				isSlow = false;
+				
+			}
+
+			if (!topSlowSwitch.get()) {
+
+				isSlow = true;
+
+			}
+
+			if (speed > 0 && !topSwitch.get()) {
+
+				speed = 0;
+
+			}
+
+		} else {
+
+			if (!topSwitch.get()) {
+
+				isSlow = false;
+
+			}
+
+			if (!topSlowSwitch.get()) {
+
+				isSlow = false;
+
+			}
+			
+			if (!bottomSlowSwitch.get()) {
+
+				isSlow = true;
+
+			}
+
+			if (speed < 0 && !bottomSwitch.get()) {
+
+				speed = 0;
+
+			}
+
 		}
-		
-		// slow toggle off
-		if(isSlow && (!topSwitch.get() || !bottomSwitch.get())) {
-			isSlow = false;
-		}*/
-		//slow toggle on
-		if (speed > 0 && !bottomSlowSwitch.get()){
-			isSlow = true;
-		}
-		if (speed < 0 && !topSlowSwitch.get()){
-			isSlow = true;
-		}
-		
-		
-		// bottom limit switch
-		if(speed > 0 && !bottomSwitch.get()){
-			speed = 0;
-			isSlow = false;
-		}
-		
-		// top limit switch
-		if(speed < 0 && !topSwitch.get()){
-			speed = 0;
-			isSlow = false;
-		}
-		
-		// slow mode
-		if(isSlow) {
-			speed /= 2;
-		}
-		
-		Robot.robotLights.setScrollingFromSpeed(-speed);
-		
-		// gravitational compensation
-		if(speed == 0) {
-			speed = -.1;
+
+		if(isSlow){
+			
+			speed/=2;
+			
 		}
 		
 		elevatorMotor.set(speed);
+
+		// took out or's to prevent recognizing top switch when going up and
+		// bottom when going down
+		/*
+		 * if(!topSlowSwitch.get() || !bottomSlowSwitch.get()) { isSlow = true;
+		 * }
+		 * 
+		 * // slow toggle off if(isSlow && (!topSwitch.get() ||
+		 * !bottomSwitch.get())) { isSlow = false; }
+		 */
+		// slow toggle on
+		// speed = -speed;
+		// if(speed > 0){
+		//
+		// isSlowDown = false;
+		//
+		// if(!topSlowSwitch.get()){
+		// isSlowUp = true;
+		// }
+		//
+		// }
+		//
+		// if(speed < 0){
+		// isSlowUp = false;
+		//
+		// if(!bottomSlowSwitch.get()){
+		// isSlowDown = true;
+		// }
+		//
+		// }
+		//
+		// if(isSlowUp == true){
+		// speed /= 2;
+		// }
+
+		/*
+		 * if (speed > 0 && !bottomSlowSwitch.get()){ isSlow = true; } if (speed
+		 * < 0 && !topSlowSwitch.get()){ isSlow = true; }
+		 * 
+		 * 
+		 * // bottom limit switch if(speed > 0 && !bottomSwitch.get()){ speed =
+		 * 0; isSlow = false; }
+		 * 
+		 * // top limit switch if(speed < 0 && !topSwitch.get()){ speed = 0;
+		 * isSlow = false; }
+		 * 
+		 * // slow mode if(isSlow) { speed /= 2; }
+		 * 
+		 * Robot.robotLights.setScrollingFromSpeed(-speed);
+		 * 
+		 * // gravitational compensation if(speed == 0) { speed = -.1; }
+		 */
+
 	}
-	
+
 	// withbumpers
 
 	// with trigger
@@ -170,7 +245,7 @@ public class Elevator extends Subsystem {
 
 	protected void initDefaultCommand() {
 
-		setDefaultCommand(new MoveElevatorWithTrigger());
+		setDefaultCommand(new MoveElevatorWithJoystick());
 
 	}
 }

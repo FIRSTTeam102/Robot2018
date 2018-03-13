@@ -8,13 +8,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class GetInScalePosition extends CommandGroup {
-	private int botPos;
-
-    public GetInScalePosition(int botPos) {
+	
+	public GetInScalePosition(int botPos) {
     	requires(Robot.robotDriveTrain);
     	addSequential(new DriveStraight(0.75, 27));
     	if(botPos ==  1){
-    		addSequential(new DriveSideways(0.75, false, 5 ));
+    		addSequential(new DriveSideways(0.75, false, 5));
     	}
     	else if(botPos == 3){
     		addSequential(new DriveSideways(0.75, true, 5));

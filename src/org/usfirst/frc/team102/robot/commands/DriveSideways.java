@@ -5,14 +5,13 @@ import org.usfirst.frc.team102.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ This program for the most part looks good. My only concern would be as to whether or not a while loop needs to be implemented since this runs 
+ repeatedly anyway.
  */
 public class DriveSideways extends Command {
 	
 	private boolean isLeft;
-	private double direction;
 	private double distanceToGo;
-	private double distanceTraveled;
 	private double percentSpeed;
 	
 	
@@ -27,21 +26,13 @@ public class DriveSideways extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-    	distanceTraveled = Robot.robotDriveTrain.distanceCounter(percentSpeed);
-    	if(isLeft){
-    		direction = 0.5;	
-    	}
-    	else{
-    		direction= -0.5;
-    	}
+    	Robot.robotDriveTrain.driveSideways(percentSpeed, isLeft, distanceToGo);
     	
-    	while(distanceTraveled < distanceToGo){
-    		Robot.robotDriveTrain.driveSideways(direction);
-    	}
     	
     }
 

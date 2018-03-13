@@ -1,6 +1,6 @@
 package org.usfirst.frc.team102.robot.commands;
 
-import javax.swing.Timer;
+
 
 import org.usfirst.frc.team102.robot.Robot;
 
@@ -14,7 +14,7 @@ public class DriveStraight extends Command {
 	
 	private double percentSpeed;
 	private double distanceToGo;
-	private double distanceTraveled;
+	
 	
 	
 	//just changed argument from "double speed and double time"
@@ -38,13 +38,8 @@ public class DriveStraight extends Command {
     	
     	try{
     		
-    		Robot.robotDriveTrain.driveStraight(percentSpeed);
-    		distanceTraveled = Robot.robotDriveTrain.distanceCounter(percentSpeed);
-    		if (distanceTraveled == distanceToGo) {
-    			Robot.robotDriveTrain.driveStraight(0.0);
-    			Robot.robotDriveTrain.getTimer().stop();
-    			
-    		}
+    		Robot.robotDriveTrain.driveStraight(percentSpeed, distanceToGo);
+    		
     		//left to do: when distance (in the distance counter method) is equal to the distanceToGo (put in in the command) stop the motors
     	}catch(Exception ex1){
     		

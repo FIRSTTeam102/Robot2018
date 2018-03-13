@@ -6,9 +6,9 @@ import org.usfirst.frc.team102.robot.RobotMap;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveElevatorWithTrigger extends Command {
+public class MoveElevatorWithJoystick extends Command {
 
-	public MoveElevatorWithTrigger() {
+	public MoveElevatorWithJoystick() {
 
 		requires(Robot.robotElevator);
 		// Use requires() here to declare subsystem dependencies
@@ -26,7 +26,7 @@ public class MoveElevatorWithTrigger extends Command {
 
 			if(Robot.robotElevator.isBumper == false){
 				
-				Robot.robotElevator.moveElevatorWithTriggers(Robot.oi.getOperatorJoystick());
+				Robot.robotElevator.moveElevatorWithJoystick(Robot.oi.getOperatorJoystick());
 				
 			}
 			

@@ -5,21 +5,28 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class ScoreFromCenter extends CommandGroup {
+public class score extends CommandGroup {
 	
-	public ScoreFromCenter(char switchPos) {
-    	if(switchPos == 'L'){
-    		addSequential(new DriveStraight(0.75, 1.5));
-    		addSequential(new DriveSideways(0.75, true, 6.5));
-    		addSequential(new MoveElevator(0.75, 2));
-    		addSequential(new DriveStraight(0.75, 3));
+	public score(int botPos,char switchPos) {
+    	
+    	if ((botPos == 1 && switchPos == 'L') || (botPos == 3 && switchPos== 'R') ){
+    		addSequential(new ScoreSwitchSS(botPos));
+    	
     	}
-    	else{
-    		addSequential(new DriveSideways(0.75, false, 4.3));
-    		addSequential(new MoveElevator(0.75, 2));
-    		addSequential(new DriveStraight(0.75, 6));
-    	}
-        // Add Commands here:
+		
+		else if((botPos == 1 && switchPos== 'R') || (botPos == 3 && switchPos == 'L')){
+			addSequential(new GetInScalePosition(botPos));
+		}
+		else if(botPos == 2){
+			addSequential(new ScoreFromCenter(switchPos));
+			
+		}
+		
+
+		
+     }
+    	
+    	// Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
@@ -35,5 +42,5 @@ public class ScoreFromCenter extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    }
+    
 }

@@ -8,13 +8,12 @@
 package org.usfirst.frc.team102.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team102.robot.commands.Automonous;
+import org.usfirst.frc.team102.robot.commands.Autonomous;
 import org.usfirst.frc.team102.robot.subsystems.Arm;
 import org.usfirst.frc.team102.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team102.robot.subsystems.Elevator;
@@ -27,6 +26,7 @@ import org.usfirst.frc.team102.robot.subsystems.Lights;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
+
 public class Robot extends TimedRobot {
 
 	public static DriveTrain robotDriveTrain;
@@ -35,10 +35,13 @@ public class Robot extends TimedRobot {
 	public static Lights robotLights;
 	public static OI oi;
 
-	Command autonomousCommand;
 	
 	
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	
+	Command autonomous;
+	
+	
+	//SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -50,8 +53,8 @@ public class Robot extends TimedRobot {
 			robotDriveTrain = new DriveTrain();
 			robotElevator = new Elevator();
 			robotArm = new Arm();
-			robotLights = new Lights();
-		
+			if(RobotMap.hasLights) robotLights = new Lights();
+			autonomous = new Autonomous();
 			
 			oi = new OI();
 		} catch (Exception ex1) {
@@ -59,11 +62,11 @@ public class Robot extends TimedRobot {
 			DriverStation.reportError(ex1.getMessage(), true);
 		}
 
-		robotLights.onDisabled();
+		if(robotLights != null) robotLights.onDisabled();
 		
 		//chooser.addDefault("Default Auto", new Automonous());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		//SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -73,7 +76,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		robotLights.onDisabled();
+		if(robotLights != null) robotLights.onDisabled();
 	}
 
 	@Override
@@ -95,22 +98,23 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		robotLights.onAutoStarted();
+		if(robotLights != null) robotLights.onAutoStarted();
 		robotArm.reset();
+		autonomous.start();
 		
-		autonomousCommand = chooser.getSelected();
+		/*autonomousCommand = chooser.getSelected();
 
-		/*
+		
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
 		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
+		 
 
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
-		}
+		}*/
 	}
 
 	/**
@@ -123,15 +127,16 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		robotLights.onTeleopStarted();
+		if(robotLights != null) robotLights.onTeleopStarted();
 		robotArm.reset();
+		autonomous.cancel();
 		
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null) {
-			autonomousCommand.cancel();
+		if (autonomous != null) {
+			autonomous.cancel();
 		}
 	}
 

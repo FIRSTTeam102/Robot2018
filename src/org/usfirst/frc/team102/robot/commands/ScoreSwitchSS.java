@@ -1,20 +1,19 @@
 package org.usfirst.frc.team102.robot.commands;
 
-import org.usfirst.frc.team102.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-/**
- *
- */
+/*
+*
+*/
 public class ScoreSwitchSS extends CommandGroup {
 
     public ScoreSwitchSS(int robotPos) {
     	
-    	requires(Robot.robotDriveTrain);
+    	
     	//if not using vision, still need to test numbers
     	addSequential(new DriveStraight(0.75, 14));
     	addSequential(new MoveElevator(0.75, 1));
+    	
     	if (robotPos==1){
     		addSequential(new Turn(0.75, 1.0));
     	}

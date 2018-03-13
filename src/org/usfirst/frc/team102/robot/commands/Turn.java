@@ -5,7 +5,7 @@ import org.usfirst.frc.team102.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ There may be a problem with this code. If runs repeatedly, will we just keep turning? To be looked at at a later time. - DWHITE
  */
 public class Turn extends Command {
 
@@ -18,7 +18,7 @@ public class Turn extends Command {
     	requires(Robot.robotDriveTrain);
     	this.speed = speed;
     	this.seconds = seconds;
-    	
+    	setTimeout(seconds);
     }
 
     // Called just before this Command runs the first time
@@ -28,13 +28,13 @@ public class Turn extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	Robot.robotDriveTrain.turn(speed);;
-    	setTimeout(seconds);
+    	Robot.robotDriveTrain.turn(speed);
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true

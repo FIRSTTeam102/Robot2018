@@ -6,24 +6,25 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class CrossAutoLine extends CommandGroup {
-	private int position;
-
-    public CrossAutoLine(int position) {
-    	this.position = position;
-    	
+	
+	public CrossAutoLine(int position, boolean goingToScale) {
     	if(position == 1 || position == 3){
-    		addSequential(new DriveStraight(0.75, 20));
+    		if(goingToScale == true){
+    			addSequential(new DriveStraight(0.75, 20));
+    		}
+    		else{
+    			addSequential(new DriveStraight(0.75, 10.25));
+    		}
     	}
+    	//if it's the center, we go to the right and cross
     	else {
-    		addSequential(new DriveSideways(0.5, false, 9.6));
-    		addSequential(new DriveStraight(0.75, 20));
+    		addSequential(new DriveStraight(0.5, 10.25));
     	}
     	
     	
     	
     	
-    	
-    	
+    }	
     	
     	
         // Add Commands here:
@@ -45,5 +46,5 @@ public class CrossAutoLine extends CommandGroup {
     	
     	
     	
-    }
+    
 }

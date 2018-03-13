@@ -2,6 +2,7 @@ package org.usfirst.frc.team102.robot.subsystems;
 
 
 
+import org.usfirst.frc.team102.robot.Robot;
 import org.usfirst.frc.team102.robot.RobotMap;
 import org.usfirst.frc.team102.robot.commands.DriveWithXBox;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -33,6 +34,9 @@ public class DriveTrain extends Subsystem {
 	@SuppressWarnings("unused")
 	private double rightJoyY;
 	
+	private double distanceTraveled;
+	private double direction;
+	
 	//variables needed for distance counter
 	private static double metersPerSec = 21.19;
 	private double time;
@@ -48,6 +52,7 @@ public class DriveTrain extends Subsystem {
 
 	// DriveTrain constructor
 	 public DriveTrain() {
+		 timer.start();
 
 		// Initializing motors Motors
 		frontLeftMotor = new WPI_TalonSRX(RobotMap.m1);
@@ -77,6 +82,7 @@ public class DriveTrain extends Subsystem {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 		setDefaultCommand(new DriveWithXBox());
+		
 
 	}
 
@@ -116,30 +122,21 @@ public class DriveTrain extends Subsystem {
 	
 	//BEWARE: AUTONOMOUS BEYOND THIS POINT
 
-	// Method to drive robot straight
-		public void driveStraight(double speed) {
-
-			// moves motors forward
-			DriveTrain.drive.driveCartesian(speed, 0.0, 0.0);
-		}
+	
 			
-			//driveSideways in auto
-			public void driveSideways(double direction) {
-				drive.driveCartesian(0, direction, 0);
-			}
+			
+			
 			
 			public double distanceCounter(double percentSpeed){
 				double distance;
-				timer.start();
+				
 				time = timer.get();
 				
 				distance = percentSpeed*metersPerSec*time;
 				
 				return distance;
 			}
-			public Timer getTimer(){
-				return timer;
-			}
+			
 			public DriverStation getDriverStation(){
 				return driverStation;
 			}
@@ -148,7 +145,37 @@ public class DriveTrain extends Subsystem {
 			public void turn(double turnSpeed){
 	
 				drive.driveCartesian(0.0,0.0, turnSpeed);
+				
 
+			}
+			
+			// Method to drive robot straight
+			public void driveStraight(double speed, double distanceToGo) {
+
+				// moves motors forward
+				DriveTrain.drive.driveCartesian(speed, 0.0, 0.0);
+				
+				distanceTraveled = distanceCounter(speed);
+	    		if (distanceTraveled == distanceToGo) {
+	    			speed = 0;
+	    			timer.stop();
+	    			
+	    		}
+			}
+			
+			//driveSideways in auto
+			public void driveSideways(double percentSpeed ,boolean isLeft, double distanceToGo){
+				distanceTraveled = Robot.robotDriveTrain.distanceCounter(percentSpeed);
+		    	if(isLeft){
+		    		direction = 0.5;	
+		    	}
+		    	else{
+		    		direction= -0.5;
+		    	}
+		    	while(distanceTraveled < distanceToGo){
+		    		
+		    		drive.driveCartesian(0, direction, 0);
+		    	}
 			}
 			
 			//SameSwitchSideScore
