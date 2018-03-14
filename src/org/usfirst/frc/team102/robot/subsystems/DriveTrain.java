@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 public class DriveTrain extends Subsystem {
 
 	// Creating MecanumDrive Object
-	protected static MecanumDrive drive;
+	private MecanumDrive drive;
 
 	// Creating Motor Objects
 	WPI_TalonSRX frontLeftMotor;
@@ -153,7 +153,7 @@ public class DriveTrain extends Subsystem {
 			public void driveStraight(double speed, double distanceToGo) {
 
 				// moves motors forward
-				DriveTrain.drive.driveCartesian(speed, 0.0, 0.0);
+				drive.driveCartesian(speed, 0.0, 0.0);
 				
 				distanceTraveled = distanceCounter(speed);
 	    		if (distanceTraveled == distanceToGo) {
