@@ -150,7 +150,7 @@ public class DriveTrain extends Subsystem {
 			
 			// Method to drive robot straight
 			public void driveStraight(double speed, double distanceToGo, double time) {
-
+				
 				// moves motors forward
 				this.distanceToGo = distanceToGo;
 				drive.driveCartesian(speed, 0.0, 0.0);
