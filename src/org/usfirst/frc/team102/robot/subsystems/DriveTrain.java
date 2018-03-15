@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 public class DriveTrain extends Subsystem {
 
 	// Creating MecanumDrive Object
-	protected static MecanumDrive drive;
+	private MecanumDrive drive;
 
 	// Creating Motor Objects
 	WPI_TalonSRX frontLeftMotor;
