@@ -16,7 +16,9 @@ public class DriveStraight extends Command {
 	private double percentSpeed;
 	private double distanceToGo;
 	Timer timer = new Timer();
-	
+	double seconds;
+
+	double fullSpeed = 2;
 	
 	//just changed argument from "double speed and double time"
     public DriveStraight( double percentSpeed, double distanceToGo) {
@@ -28,11 +30,13 @@ public class DriveStraight extends Command {
     	this.distanceToGo = distanceToGo;
     	
     	
+    	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	timer.start();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -41,10 +45,10 @@ public class DriveStraight extends Command {
     	try{
     		
     		Robot.robotDriveTrain.driveStraight(percentSpeed, distanceToGo, timer.get());
+    		seconds = (percentSpeed * fullSpeed)/distanceToGo;
+    		setTimeout(seconds);
+   
     		
-    		if(Robot.robotDriveTrain.getDistanceTraveled() >= Robot.robotDriveTrain.getDistanceToGo()){
-    			timer.stop();
-    		}
     		
     		//left to do: when distance (in the distance counter method) is equal to the distanceToGo (put in in the command) stop the motors
     	}catch(Exception ex1){

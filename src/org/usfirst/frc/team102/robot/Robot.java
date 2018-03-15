@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import org.usfirst.frc.team102.robot.commands.Autonomous;
 import org.usfirst.frc.team102.robot.commands.CrossAutoLine;
-import org.usfirst.frc.team102.robot.commands.DriveForwardsAuto;
 import org.usfirst.frc.team102.robot.commands.DriveStraight;
 import org.usfirst.frc.team102.robot.commands.ScoreNoScale;
 import org.usfirst.frc.team102.robot.commands.score;
@@ -59,8 +58,9 @@ public class Robot extends TimedRobot {
 			robotElevator = new Elevator();
 			robotArm = new Arm();
 			if(RobotMap.hasLights) robotLights = new Lights();
-			
+
 			autonomous = new CrossAutoLine(1,false);
+			autonomous = new DriveStraight(1, 10);
 			
 			oi = new OI();
 		} catch (Exception ex1) {

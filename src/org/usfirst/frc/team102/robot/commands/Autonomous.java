@@ -25,7 +25,7 @@ public class Autonomous extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new DriveForwardsAuto(2.0));
+    	//addSequential(new DriveForwardsAuto(2.0));
     	
     }
 }

@@ -145,19 +145,19 @@ public class DriveTrain extends Subsystem {
 			public void driveStraight(double speed, double distanceToGo, double time) {
 				
 				// moves motors forward
-				this.distanceToGo = distanceToGo;
+			   //this.distanceToGo = distanceToGo;
 				drive.driveCartesian(speed, 0.0, 0.0);
-				
-				distanceTraveled = distanceCounter(speed, time);
-				System.out.println("Distance traveled: " + distanceTraveled);
-    			System.out.println("Distance to go" + distanceToGo);
-	    		if (distanceTraveled >= distanceToGo) {
+				System.out.println(time);
+				//distanceTraveled = distanceCounter(speed, time);
+				//System.out.println("Distance traveled: " + distanceTraveled);
+    			//System.out.println("Distance to go" + distanceToGo);
+    			
+	    		/*if (distanceTraveled >= distanceToGo) {
 	    			System.out.println("Recognizes distance is met");
 	    			drive.driveCartesian(0, 0, 0);
+	    			
+	    		}*/
 	    		
-	    			
-	    			
-	    		}
 			}
 			
 			public double getDistanceToGo(){
@@ -172,7 +172,7 @@ public class DriveTrain extends Subsystem {
 			}
 			//driveSideways in auto
 			public void driveSideways(double percentSpeed ,boolean isLeft, double distanceToGo){
-				distanceTraveled = Robot.robotDriveTrain.distanceCounter(percentSpeed, time);
+				distanceTraveled = distanceCounter(percentSpeed, time);
 		    	if(isLeft){
 		    		direction = 0.5;	
 		    	}
