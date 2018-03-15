@@ -59,7 +59,8 @@ public class Robot extends TimedRobot {
 			robotElevator = new Elevator();
 			robotArm = new Arm();
 			if(RobotMap.hasLights) robotLights = new Lights();
-		
+			
+			autonomous = new CrossAutoLine(1,false);
 			
 			oi = new OI();
 		} catch (Exception ex1) {

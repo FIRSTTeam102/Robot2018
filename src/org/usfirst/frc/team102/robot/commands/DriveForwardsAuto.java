@@ -7,28 +7,26 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Turn extends Command {
+public class DriveForwardsAuto extends Command {
 
-	double seconds;
-	double speed;
-	
-    public Turn(double speed, double seconds) {
+    public DriveForwardsAuto(double time) {
+    	requires(Robot.robotDriveTrain);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.robotDriveTrain);
-    	this.speed = speed;
-    	this.seconds = seconds;
-    	setTimeout(seconds);
+    	
+    	this.setTimeout(time);
+    	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	Robot.robotDriveTrain.turn(speed);
+    	Robot.robotDriveTrain.driveForwardsAuto(0.5);
     	
     }
 
@@ -39,6 +37,9 @@ public class Turn extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	
+    	Robot.robotDriveTrain.driveForwardsAuto(0);
+    	
     }
 
     // Called when another command which requires one or more of the same
