@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import org.usfirst.frc.team102.robot.commands.Autonomous;
 import org.usfirst.frc.team102.robot.commands.CrossAutoLine;
+import org.usfirst.frc.team102.robot.commands.DriveForwardsAuto;
+import org.usfirst.frc.team102.robot.commands.DriveStraight;
 import org.usfirst.frc.team102.robot.commands.ScoreNoScale;
 import org.usfirst.frc.team102.robot.commands.score;
 import org.usfirst.frc.team102.robot.subsystems.Arm;
@@ -37,15 +39,14 @@ public class Robot extends TimedRobot {
 	public static Arm robotArm;
 	public static Lights robotLights;
 	public static OI oi;
-
-	
-	
+	DriverStation driverStation;
 	
 	Command autonomous;
 	int botPos = 0;
 	char switchPos;
 	
 	SendableChooser<Command> chooser = new SendableChooser<>();
+	SendableChooser<Integer> robotPosition = new SendableChooser<Integer>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -58,25 +59,40 @@ public class Robot extends TimedRobot {
 			robotElevator = new Elevator();
 			robotArm = new Arm();
 			if(RobotMap.hasLights) robotLights = new Lights();
-			autonomous = new Autonomous();
+		
 			
 			oi = new OI();
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
+			
 		}
-
+		
+		//gets info to pass into autonomous
+		
+		String driverStationMessage = DriverStation.getInstance().getGameSpecificMessage();
+    	char switchPos = driverStationMessage.charAt(0);
+    	
+		
+		//controls elevator lights
 		if(robotLights != null) robotLights.onDisabled();
 		
-		//String[] AutoOptions = {"scorenoscale","score","noscore"};
-		//SmartDashboard.putStringArray("Auto Selector", AutoOptions);
-		
+		//to choose auto mode
 		chooser.addDefault("Score No Scale", new ScoreNoScale(botPos,switchPos));
 		chooser.addObject("Score", new score(botPos, switchPos));
 		chooser.addObject("Cross Line", new CrossAutoLine(botPos, false));
-		
 		SmartDashboard.putData("Auto Selector", chooser);
+		
+		//to choose botpos
+		robotPosition.addDefault("Left", 1 );
+		robotPosition.addObject("Center", 2);
+		robotPosition.addObject("Right", 3);
+		SmartDashboard.putData(robotPosition);
+	
+		
 		SmartDashboard.updateValues();
+		
+		
 		
 	}
 
@@ -112,34 +128,22 @@ public class Robot extends TimedRobot {
 		
 		if(robotLights != null) robotLights.onAutoStarted();
 		robotArm.reset();
-		
+		botPos = robotPosition.getSelected();
+		//autonomous = chooser.getSelected();
+		autonomous = new Autonomous();
 		//schedule the autonomous command (example)
 		if (autonomous != null){
 			autonomous.start();
 		}
-		//String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		//switch(autoSelected) {
-		//case "scorenoscale": autonomous = new ScoreNoScale(botPos,switchPos);
-		//break;
-		//case "score": autonomous = new score(botPos, switchPos);
-		//break;
-		//case "noscore" : default: autonomous = new CrossAutoLine(botPos, false);
-		//break;
-		//}
 		
 		}
-		/*autonomousCommand = chooser.getSelected();
 
 		
-	 String autoSelected = SmartDashboard.getString("Auto Selector",
+	/* String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 
-
-	
-
-	
 
 	/*
 	 * This function is called periodically during autonomous.
