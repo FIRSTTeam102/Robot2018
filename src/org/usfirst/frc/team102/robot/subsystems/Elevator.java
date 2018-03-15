@@ -40,7 +40,7 @@ public class Elevator extends Subsystem {
 
 		isBumper = false;
 
-		elevatorMotor.setInverted(true);
+		
 
 	}
 
@@ -151,6 +151,16 @@ public class Elevator extends Subsystem {
 			
 			speed/=2;
 			
+		}
+		
+		// lights
+		if(Robot.robotLights != null) {
+			Robot.robotLights.setScrollingFromSpeed(-speed);
+		}
+		
+		// gravitational compensation
+		if(speed == 0) {
+			speed = -.1;
 		}
 		
 		elevatorMotor.set(speed);

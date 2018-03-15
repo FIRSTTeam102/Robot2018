@@ -10,7 +10,7 @@ public class CrossAutoLine extends CommandGroup {
 	public CrossAutoLine(int position, boolean goingToScale) {
     	if(position == 1 || position == 3){
     		if(goingToScale == true){
-    			addSequential(new DriveStraight(0.75, 20));
+    			addSequential(new DriveStraight(0.5, 20));
     		}
     		else{
     			addSequential(new DriveStraight(0.75, 10.25));

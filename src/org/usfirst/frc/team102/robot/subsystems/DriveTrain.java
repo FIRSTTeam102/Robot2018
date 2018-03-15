@@ -40,7 +40,7 @@ public class DriveTrain extends Subsystem {
 	//variables needed for distance counter
 	private static double metersPerSec = 21.19;
 	private double time;
-	Timer timer = new Timer();
+	private double distanceToGo;
 	
 	
 	
@@ -52,7 +52,7 @@ public class DriveTrain extends Subsystem {
 
 	// DriveTrain constructor
 	 public DriveTrain() {
-		 timer.start();
+		 
 
 		// Initializing motors Motors
 		frontLeftMotor = new WPI_TalonSRX(RobotMap.m1);
@@ -127,10 +127,9 @@ public class DriveTrain extends Subsystem {
 			
 			
 			
-			public double distanceCounter(double percentSpeed){
+			public double distanceCounter(double percentSpeed, double time){
 				double distance;
 				
-				time = timer.get();
 				
 				distance = percentSpeed*metersPerSec*time;
 				
@@ -150,22 +149,34 @@ public class DriveTrain extends Subsystem {
 			}
 			
 			// Method to drive robot straight
-			public void driveStraight(double speed, double distanceToGo) {
+			public void driveStraight(double speed, double distanceToGo, double time) {
 
 				// moves motors forward
-				DriveTrain.drive.driveCartesian(speed, 0.0, 0.0);
+				this.distanceToGo = distanceToGo;
+				drive.driveCartesian(speed, 0.0, 0.0);
 				
-				distanceTraveled = distanceCounter(speed);
-	    		if (distanceTraveled == distanceToGo) {
-	    			speed = 0;
-	    			timer.stop();
+				distanceTraveled = distanceCounter(speed, time);
+				System.out.println("Distance traveled: " + distanceTraveled);
+    			System.out.println("Distance to go" + distanceToGo);
+	    		if (distanceTraveled >= distanceToGo) {
+	    			System.out.println("Recognizes distance is met");
+	    			drive.driveCartesian(0, 0, 0);
+	    		
+	    			
 	    			
 	    		}
 			}
 			
+			public double getDistanceToGo(){
+				return distanceToGo;
+			}
+			public double getDistanceTraveled(){
+				return distanceTraveled;
+			}
+			
 			//driveSideways in auto
 			public void driveSideways(double percentSpeed ,boolean isLeft, double distanceToGo){
-				distanceTraveled = Robot.robotDriveTrain.distanceCounter(percentSpeed);
+				distanceTraveled = Robot.robotDriveTrain.distanceCounter(percentSpeed, time);
 		    	if(isLeft){
 		    		direction = 0.5;	
 		    	}

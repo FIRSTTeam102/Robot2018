@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import org.usfirst.frc.team102.robot.commands.Autonomous;
+import org.usfirst.frc.team102.robot.commands.CrossAutoLine;
 import org.usfirst.frc.team102.robot.subsystems.Arm;
 import org.usfirst.frc.team102.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team102.robot.subsystems.Elevator;
@@ -54,7 +55,7 @@ public class Robot extends TimedRobot {
 			robotElevator = new Elevator();
 			robotArm = new Arm();
 			if(RobotMap.hasLights) robotLights = new Lights();
-			autonomous = new Autonomous();
+			autonomous = new CrossAutoLine(1,false);
 			
 			oi = new OI();
 		} catch (Exception ex1) {

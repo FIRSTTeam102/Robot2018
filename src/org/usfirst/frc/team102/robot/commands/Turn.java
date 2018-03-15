@@ -5,7 +5,7 @@ import org.usfirst.frc.team102.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- There may be a problem with this code. If runs repeatedly, will we just keep turning? To be looked at at a later time. - DWHITE
+ *
  */
 public class Turn extends Command {
 

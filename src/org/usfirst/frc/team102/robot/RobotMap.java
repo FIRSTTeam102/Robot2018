@@ -57,14 +57,14 @@ public class RobotMap {
 	public static final int compressorIndex = 0;
 	
 	//switchesforelevator
-	public static final int topSwitch = 0; 
-	public static final int bottomSwitch = 3;
-	public static final int topSlowSwitch = 1; 
-	public static final int bottomSlowSwitch = 2; 
+	public static final int topSwitch = 3; 
+	public static final int bottomSwitch = 0;
+	public static final int topSlowSwitch = 2; 
+	public static final int bottomSlowSwitch = 1; 
 	
 	//elevatorDown
 	
-	public static boolean isTestBed = true;
+	public static boolean isTestBed = false;
 	public static boolean hasLights = !isTestBed;
 	
 	// For example to map the left and right motors, you could define the
