@@ -64,8 +64,11 @@ public class RobotMap {
 	
 	//elevatorDown
 	
-	public static boolean isTestBed = true;
+	public static boolean isTestBed = false;
 	public static boolean hasLights = !isTestBed;
+	
+	
+	
 	
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.

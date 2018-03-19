@@ -7,17 +7,21 @@
 
 package org.usfirst.frc.team102.robot;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team102.robot.commands.Autonomous;
-import org.usfirst.frc.team102.robot.commands.CrossAutoLine;
 import org.usfirst.frc.team102.robot.commands.DriveStraight;
-import org.usfirst.frc.team102.robot.commands.ScoreNoScale;
-import org.usfirst.frc.team102.robot.commands.score;
 import org.usfirst.frc.team102.robot.subsystems.Arm;
 import org.usfirst.frc.team102.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team102.robot.subsystems.Elevator;
@@ -39,12 +43,13 @@ public class Robot extends TimedRobot {
 	public static Lights robotLights;
 	public static OI oi;
 	DriverStation driverStation;
-	
+
 	Command autonomous;
 	int botPos = 0;
 	char switchPos;
-	
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	String driverStationMessage;
+
+	SendableChooser<Integer> chooser = new SendableChooser<Integer>();
 	SendableChooser<Integer> robotPosition = new SendableChooser<Integer>();
 
 	/**
@@ -54,47 +59,48 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		try {
+			
 			robotDriveTrain = new DriveTrain();
 			robotElevator = new Elevator();
 			robotArm = new Arm();
-			if(RobotMap.hasLights) robotLights = new Lights();
-
-			autonomous = new CrossAutoLine(1,false);
-			autonomous = new DriveStraight(1, 10);
-			
+			if (RobotMap.hasLights)
+				robotLights = new Lights();
 			oi = new OI();
+			
+			new Thread(() -> {
+                UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+                camera.setResolution(320, 240);
+            }).start();
+			
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
-			
+
 		}
-		
-		//gets info to pass into autonomous
-		
-		String driverStationMessage = DriverStation.getInstance().getGameSpecificMessage();
-    	char switchPos = driverStationMessage.charAt(0);
-    	
-		
-		//controls elevator lights
-		if(robotLights != null) robotLights.onDisabled();
-		
-		//to choose auto mode
-		chooser.addDefault("Score No Scale", new ScoreNoScale(botPos,switchPos));
-		chooser.addObject("Score", new score(botPos, switchPos));
-		chooser.addObject("Cross Line", new CrossAutoLine(botPos, false));
+
+		// gets info to pass into autonomous
+
+		// driverStationMessage =
+		// DriverStation.getInstance().getGameSpecificMessage();
+		// switchPos = driverStationMessage.charAt(0);
+
+		// controls elevator lights
+		if (robotLights != null)
+			robotLights.onDisabled();
+
+		// to choose auto mode
+		chooser.addDefault("Score @ Switch", 1);
+		chooser.addObject("Score/Travel (Scale)", 2);
+		chooser.addObject("Cross Auto Line", 3);
 		SmartDashboard.putData("Auto Selector", chooser);
-		
-		//to choose botpos
-		robotPosition.addDefault("Left", 1 );
+
+		// to choose botpos
+		robotPosition.addDefault("Left", 1);
 		robotPosition.addObject("Center", 2);
 		robotPosition.addObject("Right", 3);
 		SmartDashboard.putData(robotPosition);
-	
-		
+
 		SmartDashboard.updateValues();
-		
-		
-		
 	}
 
 	/**
@@ -104,7 +110,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		if(robotLights != null) robotLights.onDisabled();
+		if (robotLights != null)
+			robotLights.onDisabled();
 	}
 
 	@Override
@@ -126,28 +133,30 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		
-		if(robotLights != null) robotLights.onAutoStarted();
+		driverStationMessage = DriverStation.getInstance().getGameSpecificMessage();
+		switchPos = driverStationMessage.charAt(0);
+
+		if (robotLights != null)
+			robotLights.onAutoStarted();
 		robotArm.reset();
-		botPos = robotPosition.getSelected();
-		//autonomous = chooser.getSelected();
-		autonomous = new Autonomous();
-		//schedule the autonomous command (example)
-		if (autonomous != null){
+		autonomous = new Autonomous(chooser.getSelected(), robotPosition.getSelected(), switchPos);
+
+		// autonomous = new Autonomous();
+		// schedule the autonomous command (example)
+		if (autonomous != null) {
 			autonomous.start();
 		}
-		
-		}
 
-		
-	/* String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 
+	}
 
 	/*
-	 * This function is called periodically during autonomous.
+	 * String autoSelected = SmartDashboard.getString("Auto Selector",
+	 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand =
+	 * new MyAutoCommand(); break; case "Default Auto": default:
+	 * autonomousCommand = new ExampleCommand(); break; }
+	 * 
+	 * 
+	 * /* This function is called periodically during autonomous.
 	 */
 
 	@Override
@@ -157,10 +166,12 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		if(robotLights != null) robotLights.onTeleopStarted();
+		if (robotLights != null)
+			robotLights.onTeleopStarted();
 		robotArm.reset();
-		autonomous.cancel();
-		
+		if (autonomous != null)
+			autonomous.cancel();
+
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove

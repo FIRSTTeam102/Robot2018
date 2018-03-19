@@ -11,13 +11,7 @@ public class GetInScalePosition extends CommandGroup {
 	
 	public GetInScalePosition(int botPos) {
     	requires(Robot.robotDriveTrain);
-    	addSequential(new DriveStraight(0.75, 27));
-    	if(botPos ==  1){
-    		addSequential(new DriveSideways(0.75, false, 5));
-    	}
-    	else if(botPos == 3){
-    		addSequential(new DriveSideways(0.75, true, 5));
-    	}
+    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

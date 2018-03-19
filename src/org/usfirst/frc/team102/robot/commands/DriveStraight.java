@@ -18,7 +18,7 @@ public class DriveStraight extends Command {
 	Timer timer = new Timer();
 	double seconds;
 
-	double fullSpeed = 2;
+	double fullSpeed = 12;
 	
 	//just changed argument from "double speed and double time"
     public DriveStraight( double percentSpeed, double distanceToGo) {
@@ -29,6 +29,8 @@ public class DriveStraight extends Command {
     	this.percentSpeed = percentSpeed;
     	this.distanceToGo = distanceToGo;
     	
+    	seconds = (percentSpeed * fullSpeed)/distanceToGo;
+		setTimeout(seconds);
     	
     	
     }
@@ -44,9 +46,8 @@ public class DriveStraight extends Command {
     	
     	try{
     		
-    		Robot.robotDriveTrain.driveStraight(percentSpeed, distanceToGo, timer.get());
-    		seconds = (percentSpeed * fullSpeed)/distanceToGo;
-    		setTimeout(seconds);
+    		Robot.robotDriveTrain.driveStraight(percentSpeed);
+    		
    
     		
     		
@@ -67,7 +68,7 @@ public class DriveStraight extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	
+    	Robot.robotDriveTrain.driveStraight(0.0);
     	
     }
 

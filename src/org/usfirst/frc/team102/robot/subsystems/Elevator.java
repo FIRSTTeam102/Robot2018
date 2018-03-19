@@ -249,10 +249,16 @@ public class Elevator extends Subsystem {
 	// autonomous use
 	public void moveElevator(double speed) {
 
-		set(speed);
+		elevatorMotor.set(-speed);
 
 	}
 
+	public void gravHelp(){
+		
+		elevatorMotor.set(-.1);
+		
+	}
+	
 	protected void initDefaultCommand() {
 
 		setDefaultCommand(new MoveElevatorWithJoystick());

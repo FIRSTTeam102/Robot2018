@@ -9,6 +9,8 @@ package org.usfirst.frc.team102.robot;
 
 import org.usfirst.frc.team102.robot.commands.UpDownArm;
 import org.usfirst.frc.team102.robot.commands.ArmSqueeze;
+import org.usfirst.frc.team102.robot.commands.Autonomous;
+import org.usfirst.frc.team102.robot.commands.DriveForwardsAuto;
 import org.usfirst.frc.team102.robot.commands.MoveElevatorWithBumper;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -46,24 +48,27 @@ public class OI {
 		xBoxA = new JoystickButton(xBoxOperator, RobotMap.xBoxAIndex);
 
 		xBoxB = new JoystickButton(xBoxOperator, RobotMap.xBoxBIndex);
-		xBoxB.whenPressed(new ArmSqueeze());
+		xBoxB.whenPressed(new UpDownArm());
 
 		xBoxY = new JoystickButton(xBoxOperator, RobotMap.xBoxYIndex);
-		xBoxY.whenPressed(new UpDownArm());
+		xBoxY.whenPressed(new ArmSqueeze());
 
 		xBoxX = new JoystickButton(xBoxOperator, RobotMap.xBoxXIndex);
 
 		// elevator
 		xBoxRightBumper = new JoystickButton(xBoxOperator, RobotMap.xBoxLeftBumperIndex);
-		xBoxRightBumper.whenPressed(new MoveElevatorWithBumper(0.5));
-		xBoxRightBumper.whenReleased(new MoveElevatorWithBumper(0.0));
+		//xBoxRightBumper.whenPressed(new MoveElevatorWithBumper(0.5));
+		//xBoxRightBumper.whenReleased(new MoveElevatorWithBumper(0.0));
 
 		xBoxLeftBumper = new JoystickButton(xBoxOperator, RobotMap.xBoxRightBumperIndex);
-		xBoxLeftBumper.whenPressed(new MoveElevatorWithBumper(-0.5));
-		xBoxLeftBumper.whenReleased(new MoveElevatorWithBumper(0.0));
+		//xBoxLeftBumper.whenPressed(new MoveElevatorWithBumper(-0.5));
+		//xBoxLeftBumper.whenReleased(new MoveElevatorWithBumper(0.0));
 
 		// elevator with axis
 		xboxStartButton = new JoystickButton(xBoxOperator, RobotMap.xBoxStartButtonIndex);
+		//xboxStartButton.whenPressed(new Autonomous());
+		//testing auto
+		
 
 	}
 

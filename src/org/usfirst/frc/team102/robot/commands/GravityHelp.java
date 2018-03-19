@@ -8,19 +8,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveElevator extends Command {
-	private double speed;
-	private double time;
-	
-    public MoveElevator(double speed, double time) {
-    	this.speed = speed;
-    	this.setTimeout(time);
-    	
+public class GravityHelp extends Command {
+
+    public GravityHelp(double time) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.robotElevator);
-    	
-    	
+    	setTimeout(time);
     }
 
     // Called just before this Command runs the first time
@@ -29,16 +23,14 @@ public class MoveElevator extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
     	try{
-    	
-    	Robot.robotElevator.set(speed);
-    	
-    	} catch (Exception ex1) {
+    		
+    		Robot.robotElevator.gravHelp();
+    		
+    	}  catch (Exception ex1) {
 			ex1.printStackTrace();
 			DriverStation.reportError(ex1.getMessage(), true);
 		}
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -48,9 +40,6 @@ public class MoveElevator extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	
-    	Robot.robotElevator.moveElevator(0);
-    	
     }
 
     // Called when another command which requires one or more of the same
