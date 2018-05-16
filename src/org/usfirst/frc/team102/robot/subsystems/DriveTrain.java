@@ -10,12 +10,17 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class DriveTrain extends Subsystem {
 
+	// The name of the value in SmartDashboard for whether or not
+	// we're in half-speed mode
+	public static final String HALF_SPEED_KEY_NAME = "Drive Train Half Speed";
+	
 	// Creating MecanumDrive Object
 	private MecanumDrive drive;
 
@@ -42,7 +47,8 @@ public class DriveTrain extends Subsystem {
 
 	// DriveTrain constructor
 	public DriveTrain() {
-
+		SmartDashboard.putBoolean(HALF_SPEED_KEY_NAME, false);
+		
 		// Initializing motors Motors
 		frontLeftMotor = new WPI_TalonSRX(RobotMap.m1);
 		backLeftMotor = new WPI_TalonSRX(RobotMap.m2);
@@ -65,6 +71,10 @@ public class DriveTrain extends Subsystem {
 
 	}
 
+	public boolean isHalfSpeedMode() {
+		return SmartDashboard.getBoolean(HALF_SPEED_KEY_NAME, false);
+	}
+	
 	// Setting the default command of drivetrain to driveWithXBox
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
@@ -102,6 +112,13 @@ public class DriveTrain extends Subsystem {
 
 		}
 
+		// Half-speed mode
+		if(isHalfSpeedMode()) {
+			leftJoyX /= 2;
+			leftJoyY /= 2;
+			rightJoyX /= 2;
+		}
+		
 		// putting it into method to move motors
 		drive.driveCartesian(leftJoyX, -leftJoyY, rightJoyX);
 
